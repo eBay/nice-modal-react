@@ -33,7 +33,7 @@ function App() {
         <button onClick={() => NiceModal.hide(MyBootstrapDialog)}>Hide Bootstrap Dialog</button>
         {/* <button onClick={() => modal.show()}>Antd Modal</button> */}
       </div>
-      <MyAntdModal defaultVisible id="test-antd-modal" name="nate" />
+      <MyAntdModal id="test-antd-modal" name="nate" />
     </div>
   );
 }
