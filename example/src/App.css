@@ -1,0 +1,31 @@
+.app {
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 50px !important;
+}
+
+.demo-buttons {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: 200px 200px 200px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.demo-buttons button {
+  height: 80px;
+  border: none;
+  cursor: pointer;
+}
+
+.demo-buttons button:hover {
+  background-color: #03a9f4;
+  color: #fff;
+}
+.demo-buttons button:active {
+  background-color: #039be5;
+  color: #fff;
+}

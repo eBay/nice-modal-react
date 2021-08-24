@@ -1,0 +1,88 @@
+{
+  "name": "@ebay/nice-modal",
+  "version": "1.0.3",
+  "license": "MIT",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/esm/index.d.ts",
+  "scripts": {
+    "build": "yarn build:esm && yarn build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module commonjs --outDir lib/cjs",
+    "dev": "tsc -w",
+    "test": "jest"
+  },
+  "files": [
+    "/lib"
+  ],
+  "publishConfig": {
+    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.ts"
+    ],
+    "testMatch": [
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "testRunner": "/Users/pwang7/workspace/my-app/node_modules/jest-circus/runner.js",
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "resetMocks": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
+    "@testing-library/react-hooks": "^7.0.1",
+    "@types/jest": "^26.0.24",
+    "@types/react": "^17.0.13",
+    "@types/react-dom": "^17.0.8",
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "babel-preset-react-app": "^10.0.0",
+    "eslint": "^7.30.0",
+    "eslint-plugin-jest": "^24.3.7",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-testing-library": "^4.10.1",
+    "jest": "^27.0.6",
+    "jest-circus": "^27.0.6",
+    "nyc": "^15.1.0",
+    "react": "^17.0.2",
+    "react-app-polyfill": "^2.0.0",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.3.5"
+  },
+  "resolutions": {
+    "glob-parent": "6.0.1"
+  },
+  "peerDependencies": {
+    "react": ">16.8.0",
+    "react-dom": ">16.8.0"
+  }
+}
