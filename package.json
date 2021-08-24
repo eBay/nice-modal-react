@@ -15,9 +15,6 @@
   "files": [
     "/lib"
   ],
-  "publishConfig": {
-    "registry": "https://artifactory.corp.ebay.com/artifactory/api/npm/npm-muse"
-  },
   "jest": {
     "roots": [
       "<rootDir>/src"
