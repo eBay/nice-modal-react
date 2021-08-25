@@ -1,7 +1,7 @@
 # Nice Modal
 
-[![Build Status](https://api.travis-ci.com/eBay/nice-modal.svg?branch=main)](https://app.travis-ci.com/github/eBay/nice-modal)
-[![Coverage Status](https://img.shields.io/codecov/c/github/eBay/nice-modal/main.svg)](https://codecov.io/github/eBay/nice-modal)
+[![Build Status](https://api.travis-ci.com/eBay/nice-modal-react.svg?branch=main)](https://app.travis-ci.com/github/eBay/nice-modal-react)
+[![Coverage Status](https://img.shields.io/codecov/c/github/eBay/nice-modal-react/main.svg)](https://codecov.io/github/eBay/nice-modal-react)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 `nice-modal` is a new aproach to manage modals in React applications. It can be used with any UI libraries like ant.design, material UI, bootstrap React, etc.
