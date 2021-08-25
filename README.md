@@ -4,40 +4,55 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/eBay/nice-modal-react/main.svg)](https://codecov.io/github/eBay/nice-modal-react)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-`nice-modal` is a new aproach to manage modals in React applications. It can be used with any UI libraries like ant.design, material UI, bootstrap React, etc.
+This is a small, zero dependency utility to manage modals of your React application. It can be used with any UI libraries like Material UI, Ant.Design, Bootstrap React, etc.
 
 # Motivation
-Using modals in React is a bit frustrating. Think about that if you need to implement below UI:
+Using modals in React is a bit frustrating. Think of that if you need to implement below UI:
 
 <img src="images/modal-example.png" width="500px"/>
 
-The first question in your mind may be where to declare the modal via JSX? As a modal can be showed in any page, it doesn't belong to any page component. So the most reasonable place is the app root, for example:
+Usually, the first question in your mind is where to declare the modal via JSX. As the dialog in the picture may be showed in any page, it doesn't belong to any page component. So you probally put it in the Root component, for example:
 
 ```jsx
-const App = () => {
+const Root = () => {
   const [visible, setVisible] = useState(false);
   // other logic ...
   return (
-    <Root>
+    <>
       <Main />
-      <AdModal visible={visible} />
-    </Root>
+      <AdsModal visible={visible} />
+    </>
   );
 }
 ```
 
-However, when you declare the modal in the root component, there are some confusions:
-1. It's not reasonable to maintain the modal's state in the root component. It's not scalable. When you need more modals you need to maintain much state, especially you need to maintain arguments for the modal.
-2. It's hard to show or hide the modal from children comopnonents. You need to pass `setVisible` down to the place where you need to show or hide the modal. It makes things too complicated.
+However, when you declare the modal in the root component, there are some issues:
 
-To resolve the problem, we need to rethink how we implement modals in React.
+1. Not scalable. It's unreasonable to maintain the modal's state in the root component. When you need more modals you need to maintain much state, especially you need to maintain arguments for the modal.
+2. It's hard to show or hide the modal from children comopnonents. When you maintain the state in a component then you need to pass `setVisible` down to the place where you need to show or hide the modal. It makes things too complicated.
 
-# Rethink Modal Pattern in React
-From the wikipedia, a modal is described as: A window that prevents the user from interacting with your application until he closes the window.
+Unfortunately, most examples of using modals just follow this practice, it causes such confusions when managing modals in React. To resolve the problems, we need to re-think how we implement modals in React.
 
-We can get the concolusion: while the UI part of a modal is global, the state part in React should also be global, so that we can change the modal state at any place. Not restricted under any component scope.
+# Re-think the Modal Usage Pattern in React
+From the wikipedia, a modal is described as: 
 
-Actually, a modal is very similar with a page in a single page application. The only difference is a modal allows you to not leave the current context to do some separate actions. Since every page has a globally uniq URL to allow easy navigation between pages, every modal can also have uniq id so that we can show/hide a modal from anywhere. This is just why NiceModal is created.
+> A window that prevents the user from interacting with your application until he closes the window.
+
+We can get the concolusion: while the UI part of a modal is global, the state part in React should also be global. A modal's state, both view state and data state, should be not tied to a specific component. That's because from the UI perspective, a modal could be show on top of any page/componnet.
+
+I believe you must once encountered with the scenario that originally you only needed to show a modal when click a button, then when requirements changed, you need to open the same modal from a different place. Then you have to refactor your code to re-consider where to declare the modal. The root cause of such annoying things is just because we have not understood the essential of a modal.
+
+Actually, a modal is very similar with a page in a single page application. The only difference is: a modal allows you to not leave the current context to do some separate tasks. For pages, we have router framework to manage them by URLs now. But for modals, there's not a global manager to show or hide a modal.
+
+So, that's just why this small utility is created. You will be able to manage the modals in a gobally and unified way.
+
+# How we do it?
+Basically, `nice-modal-react` manages all state of modals in a global place (React context by default). And it provides APIs to show/hide/remove a modal from the page. Some considerations are list below:
+
+* Modals are uncontrolled. That is, you can close modal itself in the modal component.
+* The code of your modal component is not executed if it's invisible.
+* It should not break the transitions of showing/hiding a modal.
+* Promise based. Besides using props to interact with the modal from the parent component, you can do it easier by promise.
 
 # Usage
 ### 1.install nice-modal with:
