@@ -58,13 +58,13 @@ Basically, `nice-modal-react` manages all state of modals in a global place (Rea
 ### 1.install nice-modal with:
 
 ```
-yarn add --dev @ebay/nice-modal
+yarn add --dev @ebay/nice-modal-react
 ```
 
 ### 2. Embed your application with `NiceModal.Provider`:
 
 ```js
-import NiceModal from '@ebay/nice-modal';
+import NiceModal from '@ebay/nice-modal-react';
 ReactDOM.render(
   <React.StrictMode>
     <NiceModal.Provider>
@@ -80,7 +80,7 @@ NiceModal embeded supports for Material UI, Antd Design and Bootstrap React. For
 
 ```js
 import { Modal } from 'antd';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal';
+import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 
 export default NiceModal.create(({ name }) => {
   const modal = useModal();
@@ -95,7 +95,7 @@ export default NiceModal.create(({ name }) => {
 ### 4. Use the modal by id
 You can control a nice modal by id or the component itself.
 ```js
-import NiceModal from '@ebay/nice-modal';
+import NiceModal from '@ebay/nice-modal-react';
 import MyAntdModal from './my-antd-modal';
 
 // If use by id, need to register the modal component.
