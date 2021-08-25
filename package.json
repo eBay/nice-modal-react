@@ -1,5 +1,5 @@
 {
-  "name": "@ebay/nice-modal",
+  "name": "@ebay/nice-modal-react",
   "version": "1.0.3",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
