@@ -4,7 +4,7 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/eBay/nice-modal-react/main.svg)](https://codecov.io/github/eBay/nice-modal-react)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-This is a small, zero dependency utility to manage modals of your React application. It can be used with any UI libraries like Material UI, Ant.Design, Bootstrap React, etc.
+This is a small, zero dependency utility to manage modals of your React application. It allows you to manage modals just like managing pages with a router in React. It's not a React modal component but should be used with other UI libraries which provide modal components like Material UI, Ant.Design, Bootstrap React, etc.
 
 # Motivation
 Using modals in React is a bit frustrating. Think of that if you need to implement below UI:
@@ -31,37 +31,47 @@ However, when you declare the modal in the root component, there are some issues
 1. Not scalable. It's unreasonable to maintain the modal's state in the root component. When you need more modals you need to maintain much state, especially you need to maintain arguments for the modal.
 2. It's hard to show or hide the modal from children comopnonents. When you maintain the state in a component then you need to pass `setVisible` down to the place where you need to show or hide the modal. It makes things too complicated.
 
-Unfortunately, most examples of using modals just follow this practice, it causes such confusions when managing modals in React. To resolve the problems, we need to re-think how we implement modals in React.
-
-# Re-think the Modal Usage Pattern in React
-From the wikipedia, a modal is described as: 
-
-> A window that prevents the user from interacting with your application until he closes the window.
-
-We can get the concolusion: while the UI part of a modal is global, the state part in React should also be global. A modal's state, both view state and data state, should be not tied to a specific component. That's because from the UI perspective, a modal could be show on top of any page/componnet.
+Unfortunately, most examples of using modals just follow this practice, it causes such confusions when managing modals in React.
 
 I believe you must once encountered with the scenario that originally you only needed to show a modal when click a button, then when requirements changed, you need to open the same modal from a different place. Then you have to refactor your code to re-consider where to declare the modal. The root cause of such annoying things is just because we have not understood the essential of a modal.
 
-Actually, a modal is very similar with a page in a single page application. The only difference is: a modal allows you to not leave the current context to do some separate tasks. For pages, we have router framework to manage them by URLs now. But for modals, there's not a global manager to show or hide a modal.
+To resolve the problems, we need to re-think how we implement modals in React.
 
-So, that's just why this small utility is created. You will be able to manage the modals in a gobally and unified way.
+# Re-think the Modal Usage Pattern in React
+According to the [wikipedia](https://en.wikipedia.org/wiki/Modal_window), a modal can be described as: 
 
-# How we do it?
-Basically, `nice-modal-react` manages all state of modals in a global place (React context by default). And it provides APIs to show/hide/remove a modal from the page. Some considerations are list below:
+> A window that prevents the user from interacting with your application until he closes the window.
 
-* Modals are uncontrolled. That is, you can close modal itself in the modal component.
+From the definition we can get a conclusion: a modal is a global view that's not necessarily related with a specific context.
+
+This is very similar with the page concept in a single page UI application. The visibility/ state of modals should be managed globally because, from the UI perspective, a modal could be showed above any page/componnet. The only difference between modal and page is: a modal allows you to not leave the current page to do some separate tasks.
+
+For pages management, we already have router framework like React Router, it helps to navigate to a page by URL. Actually, you can think URL a global id for a page. So, similarly, what if you assign a uniq id to a modal then show/hide it by the id? This is just how we designed NiceModal though you can choose not using a uniq id. 
+
+With NiceModal, you will be able to manage the modals in a gobally and unified way.
+
+# Features
+Basically, `nice-modal-react` manages state of all modals at a global place (React context by default, optionally Redux). And it provides APIs to show/hide/remove a modal from the page. Here's the list of key features:
+
+* Be able to use with any UI library.
+* Zero dependency and small: ~2kb after gzip.
+* Modals are uncontrolled. That is, you can close itself in the modal component.
 * The code of your modal component is not executed if it's invisible.
 * It should not break the transitions of showing/hiding a modal.
 * Promise based. Besides using props to interact with the modal from the parent component, you can do it easier by promise.
 
 # Usage
-### 1.install nice-modal with:
+### Installation
 
-```
+```basn
 yarn add --dev @ebay/nice-modal-react
+
+# or with npm
+npm install @ebay/nice-modal-react --save-dev
 ```
 
-### 2. Embed your application with `NiceModal.Provider`:
+
+### Embed your application with `NiceModal.Provider`:
 
 ```js
 import NiceModal from '@ebay/nice-modal-react';
@@ -75,7 +85,7 @@ ReactDOM.render(
 );
 ```
 
-### 3. Create your modal with NiceModal.create
+### Create your modal with NiceModal.create
 NiceModal embeded supports for Material UI, Antd Design and Bootstrap React. For other UI libraries, you can map props your self.
 
 ```js
@@ -92,7 +102,7 @@ export default NiceModal.create(({ name }) => {
 });
 ```
 
-### 4. Use the modal by id
+### Use the modal by id
 You can control a nice modal by id or the component itself.
 ```js
 import NiceModal from '@ebay/nice-modal-react';
@@ -125,7 +135,7 @@ function App() {
 }
 ```
 
-### 5 Use Modal Class without id
+### Use Modal Class without id
 If you don't want to use a string to show/hide a modal, you can use the class directly.
 ```jsx
 //...
