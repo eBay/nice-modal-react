@@ -208,27 +208,41 @@ With this approach, you can get the benifits:
 
 > NOTE: if you show the component by id but the modal is not declared or registered. Nothing will happen but only a warning message in the dev console.
 
-### Use with a UI library
-### API Reference
+### Using promise API
+Besides using props to interact with the modal from the parent component, you can do it easier by promise. For example, we have a user list page with a add user button to show a dialog to add user. After user is added the list should refresh itself to refelect the change, then we can use below code:
+
+```jsx
+NiceModal.show(AddUserModal)
+  .then(() => {
+    // When call modal.hide(payload) in the modal component
+    // it will resolve the promise returned by `show` method.
+    // fetchUsers will call the rest API and update the list
+    fetchUsers()
+  })
+  .catch(err=> {
+    // if modal.hide(new Error('something went wrong')), it will reject the promise
+  }); 
+```
+
+You can see the live example on codesandbox.
+
+### Integrating with Redux
+By default NiceModal uses React context and `useReducer` internally to manage modal state. However you can easily integrate it with Redux if you want to tracking/debugging the state change of your modals with Redux dev tools. Below code shows how to do it:
+
+```jsx
+// First combine the reducer
+
+// Passing Redux state to the nice modal provider
+```
+
+### Using with any UI library
+
+### Using help methods
+
+## API Reference
 
 # License
 MIT
 
 
 
-### Create your modal component
-NiceModal embeded supports for Material UI, Antd Design and Bootstrap React. For other UI libraries, you can map props your self.
-
-```js
-import { Modal } from 'antd';
-import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
-
-export default NiceModal.create(({ name }) => {
-  const modal = useModal();
-  return (
-    <Modal title="Hello Antd" {...antdModal(modal)}>
-      Greetings: {name}!
-    </Modal>
-  );
-});
-```
