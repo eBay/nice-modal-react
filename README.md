@@ -47,9 +47,9 @@ From the definition we can get a conclusion: a modal is a global view that's not
 
 This is very similar with the page concept in a single page UI application. The visibility/ state of modals should be managed globally because, from the UI perspective, a modal could be showed above any page/componnet. The only difference between modal and page is: a modal allows you to not leave the current page to do some separate tasks.
 
-For pages management, we already have router framework like React Router, it helps to navigate to a page by URL. Actually, you can think URL a global id for a page. So, similarly, what if you assign a uniq id to a modal then show/hide it by the id? This is just how we designed NiceModal though you can choose not using a uniq id. 
+For pages management, we already have router framework like React Router, it helps to navigate to a page by URL. Actually, you can think URL a global id for a page. So, similarly, what if you assign a uniq id to a modal then show/hide it by the id? This is just how we designed NiceModal.
 
-With NiceModal, you will be able to manage the modals in a gobally and unified way.
+With NiceModal, you will be able to manage the modals in a gobal and unified way.
 
 # Features
 Basically, `nice-modal-react` manages state of all modals at a global place (React context by default, optionally Redux). And it provides APIs to show/hide/remove a modal from the page. Here's the list of key features:
@@ -62,17 +62,50 @@ Basically, `nice-modal-react` manages state of all modals at a global place (Rea
 * Promise based. Besides using props to interact with the modal from the parent component, you can do it easier by promise.
 
 # Usage
-### Installation
+## Installation
 
-```basn
+```bash
+# with yarn
 yarn add --dev @ebay/nice-modal-react
 
 # or with npm
 npm install @ebay/nice-modal-react --save-dev
 ```
 
+## Create Your Modal Component
+With NiceModal you can create a separate modal component easily. It's just the same as you create a normal component but wrap it with high order compponent by `NiceModal.create`. For example, below code shows how to create a dialog with [Ant.Design](https://ant.design):
+
+```jsx
+import { Modal } from 'antd';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+
+export default NiceModal.create(({ name }) => {
+  const modal = useModal();
+  return (
+    <Modal
+      title="Hello Antd"
+      onOk={() => modal.hide()}
+      onCancel={() => modal.hide()}
+      afterClose={() => modal.remove()}
+    >
+      Hello ${name}!
+    </Modal>
+  );
+});
+```
+
+From the code, we can see:
+* The modal is uncontrolled. You can hide your modal inside the component regardless where it is showed.
+* The high order component created by `NiceModa.create` ensures your component is not executed before it becomes visible.
+* You can call `modal.remove` to remove your modal component from the React component tree to reserve transitions.
+
+Next, let's see how to use the modal.
+
+## Using You Modal Component
+There are very flexible APIs for you to manage modals. See below for the introduction.
 
 ### Embed your application with `NiceModal.Provider`:
+Since we will manage status of modals globally, the first thing is embedding your app with NiceModal provider, for example:
 
 ```js
 import NiceModal from '@ebay/nice-modal-react';
@@ -86,7 +119,104 @@ ReactDOM.render(
 );
 ```
 
-### Create your modal with NiceModal.create
+The provider will use React context to maintain all modals' status.
+
+### Use the modal by id
+You can control a nice modal by id or the component itself.
+```js
+import NiceModal from '@ebay/nice-modal-react';
+import MyAntdModal from './my-antd-modal'; // created by above code
+
+// If use by id, need to register the modal component.
+// Normally you create a modals.js file in your project
+// and register all modals there.
+NiceModal.register('my-antd-modal', MyAntdModal);
+function App() {
+  const showAntdModal = () => {
+    // Show a modal with arguments passed to the component as props
+    NiceModal.show('my-antd-modal', { name: 'Nate' })
+  };
+  return (
+    <div className="app">
+      <h1>Nice Modal Examples</h1>
+      <div className="demo-buttons">
+        <button onClick={showAntdModal}>Antd Modal</button>
+      </div>
+    </div>
+  );
+}
+```
+
+### Use modal component without id
+If you don't want to use a string to show/hide a modal, you can use the component directly.
+
+```jsx
+import MyAntdModal from './MyAntdModal';
+//...
+NiceModal.show(MyAntdModal, { name: 'Nate' });
+//...
+```
+
+
+### Use modal with the hook
+The `useModal` hook can not only be used inside a modal component but also any component by passing it a modal id/component:
+
+```jsx
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import MyAntdModal from './my-antd-modal'; // created by above code
+
+NiceModal.register('my-antd-modal', MyAntdModal);
+//...
+// if use with id, need to register it first
+const modal = useModal('my-antd-modal');
+// or if with component, no need to register
+const modal = useModal(MyAntdModal);
+
+//...
+modal.show({ name: 'Nate' }); // show the modal
+modal.hide(); // hide the modal
+//...
+```
+
+### Declare your modal instead of `register`
+The nice modal component you created can be also used as a normal component by JSX, then you don't need to register it. For example:
+
+```jsx
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import MyAntdModal from './my-antd-modal'; // created by above code
+
+function App() {
+  const showAntdModal = () => {
+    // Show a modal with arguments passed to the component as props
+    NiceModal.show('my-antd-modal')
+  };
+  return (
+    <div className="app">
+      <h1>Nice Modal Examples</h1>
+      <div className="demo-buttons">
+        <button onClick={showAntdModal}>Antd Modal</button>
+      </div>
+      <MyAntdModal id="my-antd-modal" name="Nate" />
+    </div>
+  );
+}
+```
+
+With this approach, you can get the benifits:
+* Inherit React context in the modal component under some component node.
+* Pass arguments to the modal componnent via props.
+
+> NOTE: if you show the component by id but the modal is not declared or registered. Nothing will happen but only a warning message in the dev console.
+
+### Use with a UI library
+### API Reference
+
+# License
+MIT
+
+
+
+### Create your modal component
 NiceModal embeded supports for Material UI, Antd Design and Bootstrap React. For other UI libraries, you can map props your self.
 
 ```js
@@ -102,51 +232,3 @@ export default NiceModal.create(({ name }) => {
   );
 });
 ```
-
-### Use the modal by id
-You can control a nice modal by id or the component itself.
-```js
-import NiceModal from '@ebay/nice-modal-react';
-import MyAntdModal from './my-antd-modal';
-
-// If use by id, need to register the modal component.
-// Normally you create a modals.js file in your project and register all modals there.
-NiceModal.register('my-antd-modal', MyAntdModal);
-
-function App() {
-  const antdModal = useModal('my-antd-modal');
-  const showAntdModal = () => {
-    antdModal
-      .show({ name: 'Nate' }) // pass props to your modal component
-      .then((res) => {
-        console.log('modal is closed', res);
-      })
-      .catch((err) => {
-        console.log('modal is rejected: ', err);
-      });
-  };
-  return (
-    <div className="app">
-      <h1>Nice Modal Examples</h1>
-      <div className="demo-buttons">
-        <button onClick={showAntdModal}>Antd Modal</button>
-      </div>
-    </div>
-  );
-}
-```
-
-### Use Modal Class without id
-If you don't want to use a string to show/hide a modal, you can use the class directly.
-```jsx
-//...
-const antdModal = useModal(MyAntdModal);
-//...
-
-```
-
-### Use with a UI library
-### API Reference
-
-# License
-MIT
