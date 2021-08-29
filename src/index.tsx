@@ -12,7 +12,7 @@
 
 import React, { useEffect, useMemo, useContext, useReducer, ReactNode } from 'react';
 
-interface NiceModalState {
+export interface NiceModalState {
   id: string;
   args?: Record<string, unknown>;
   visible?: boolean;
