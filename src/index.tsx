@@ -6,6 +6,10 @@
  * https://opensource.org/licenses/MIT.
 *********************************************************** */
 
+/**
+ * @module NiceModal
+ * */
+
 import React, { useEffect, useMemo, useContext, useReducer, ReactNode } from 'react';
 
 interface NiceModalState {

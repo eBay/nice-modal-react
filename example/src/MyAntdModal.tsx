@@ -1,5 +1,5 @@
 import { Modal, Button, Space } from 'antd';
-import { create, useModal, antdModal } from 'nice-modal';
+import { create, useModal, antdModal } from '@ebay/nice-modal-react';
 
 export default create(({ name }: { name: string }) => {
   const modal = useModal();

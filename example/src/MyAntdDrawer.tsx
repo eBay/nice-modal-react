@@ -1,5 +1,5 @@
 import { Drawer } from 'antd';
-import { create, useModal, antdDrawer } from 'nice-modal';
+import { create, useModal, antdDrawer } from '@ebay/nice-modal-react';
 
 export default create(({ name }: { name: string }) => {
   const modal = useModal();

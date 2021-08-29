@@ -1,0 +1,5 @@
+{
+  "entryPoints": ["src/index.tsx"],
+  "out": "docs/api",
+  "readme": "none"
+}

@@ -1,6 +1,6 @@
 import BootstrapModal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import NiceModal, { useModal, bootstrapDialog } from 'nice-modal';
+import NiceModal, { useModal, bootstrapDialog } from '@ebay/nice-modal-react';
 
 const MyBootstrapDialog = NiceModal.create(({ name = 'Bootstrap' }: { name: string }) => {
   const modal = useModal();
