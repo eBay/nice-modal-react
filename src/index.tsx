@@ -20,11 +20,11 @@ interface NiceModalState {
   keepMounted?: boolean;
 }
 
-interface NiceModalStore {
+export interface NiceModalStore {
   [key: string]: NiceModalState;
 }
 
-interface NiceModalAction {
+export interface NiceModalAction {
   type: string;
   payload: {
     modalId: string;
@@ -40,7 +40,7 @@ interface NiceModalCallbacks {
   };
 }
 
-interface NiceModalHandler extends NiceModalState {
+export interface NiceModalHandler extends NiceModalState {
   visible: boolean;
   keepMounted: boolean;
   show: (args?: unknown) => Promise<unknown>;

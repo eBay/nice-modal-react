@@ -1,13 +1,13 @@
 {
   "name": "@ebay/nice-modal-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "repository": "https://github.com/eBay/nice-modal-react",
   "scripts": {
-    "build": "yarn build:esm && yarn build:cjs",
+    "build": "rm -rf lib && yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module commonjs --outDir lib/cjs",
     "dev": "tsc -w",
