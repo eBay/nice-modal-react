@@ -8,11 +8,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <NiceModal.Provider>
-      <App />
-    </NiceModal.Provider>
-  </React.StrictMode>,
+  <NiceModal.Provider>
+    <App />
+  </NiceModal.Provider>,
   document.getElementById('root'),
 );
 

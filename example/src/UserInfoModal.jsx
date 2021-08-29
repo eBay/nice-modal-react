@@ -16,7 +16,14 @@ export default NiceModal.create(({ user }) => {
 
   const handleSubmit = useCallback(() => {
     form.validateFields().then(() => {
-      modal.hide({ ...user, ...form.getFieldsValue() });
+      const newUser = { ...form.getFieldsValue() };
+      // In real case, you may call API to create user or update user
+      if (!user) {
+        newUser.id = String(Date.now());
+      } else {
+        newUser.id = user.id;
+      }
+      modal.hide(newUser);
     });
   }, [modal, user, form]);
   return (

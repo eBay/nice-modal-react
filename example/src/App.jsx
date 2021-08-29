@@ -1,17 +1,7 @@
-// import { useEffect } from 'react';
-// import NiceModal, { useModal } from '@ebay/nice-modal-react';
-// import MyAntdModal from './MyAntdModal';
-// import MyAntdDrawer from './MyAntdDrawer';
-// import MyBootstrapDialog from './MyBootstrapDialog';
-// import MyMuiDialog from './MyMuiDialog';
 import useHash from './useHash';
 import CodeViewer from './CodeViewer';
-// import codeMyAntdModal from '!!raw-loader!./MyAntdModal.tsx';//eslint-disable-line
-import './App.css';
-
 import UserList from './UserList';
-// const UserList = () => null;
-// NiceModal.register('mm', MyAntdModal, { name: 'nate333' });
+import './App.css';
 
 const examples = {
   real: {
@@ -25,10 +15,12 @@ const examples = {
   },
   antd: {
     name: 'Ant Design',
-    code: ['MyAntdModal.tsx', 'MyAntdModal.tsx'],
   },
   bootstrap: {
     name: 'Bootstrap React',
+  },
+  promise: {
+    name: 'Promise',
   },
   redux: {
     name: 'Redux Integration',
@@ -91,7 +83,7 @@ function App() {
         <div className="example-container">{renderExample()}</div>
         <div className="code-container">
           {example.code?.map((f) => (
-            <CodeViewer filename={f} />
+            <CodeViewer key={f} filename={f} />
           ))}
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { useMemo, useCallback, useState } from 'react';
-import _ from 'lodash';
 import { Button, Table } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import { useModal } from '@ebay/nice-modal-react';
@@ -22,9 +21,11 @@ export default function UserList() {
         if (!newUser) return;
         setUsers((users) => {
           // Modify users immutablly
-          const byId = _.keyBy(users, 'id');
-          byId[newUser.id] = newUser;
-          return _.values(byId);
+          const i = users.findIndex((u) => u.id === newUser.id);
+          const updated = { ...users[i], ...newUser };
+          const arr = [...users];
+          arr.splice(i, 1, updated);
+          return arr;
         });
       });
     },
@@ -66,7 +67,14 @@ export default function UserList() {
       <Button type="primary" onClick={handleNewUser}>
         + New User
       </Button>
-      <Table size="small" pagination={false} columns={columns} dataSource={users} style={{ marginTop: '20px' }} />
+      <Table
+        size="small"
+        rowKey="id"
+        pagination={false}
+        columns={columns}
+        dataSource={users}
+        style={{ marginTop: '20px' }}
+      />
     </div>
   );
 }
