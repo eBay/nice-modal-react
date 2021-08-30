@@ -1,4 +1,4 @@
-import { Modal, Button, Space, Alert } from 'antd';
+import { Modal, Button, Space } from 'antd';
 import NiceModal, { useModal, antdModal } from '@ebay/nice-modal-react';
 
 const PromiseModal = NiceModal.create(() => {
@@ -36,9 +36,7 @@ export default function PromiseSample() {
   };
   return (
     <>
-      <p>
-        <Alert type="info" message="NOTE: please open dev console to see the output." showIcon />
-      </p>
+      <p style={{ color: '#888' }}>NOTE: please open dev console to see the output.</p>
       <Button type="primary" onClick={showPromiseModal}>
         Show Modal
       </Button>

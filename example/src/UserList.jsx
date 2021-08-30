@@ -11,14 +11,13 @@ export default function UserList() {
 
   const handleNewUser = useCallback(() => {
     userModal.show().then((newUser) => {
-      if (newUser) setUsers([newUser, ...users]);
+      setUsers([newUser, ...users]);
     });
   }, [userModal, users]);
 
   const handleEditUser = useCallback(
     (user) => {
       userModal.show({ user }).then((newUser) => {
-        if (!newUser) return;
         setUsers((users) => {
           // Modify users immutablly
           const i = users.findIndex((u) => u.id === newUser.id);
