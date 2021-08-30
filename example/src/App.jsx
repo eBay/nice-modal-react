@@ -3,6 +3,9 @@ import CodeViewer from './CodeViewer';
 import UserList from './UserList';
 import './App.css';
 import PromiseSample from './PromiseSample';
+import MyMuiDialog from './MyMuiDialog';
+import MyAntdModal from './MyAntdModal';
+import MyBootstrapDialog from './MyBootstrapDialog';
 
 const examples = {
   real: {
@@ -13,12 +16,21 @@ const examples = {
   },
   mui: {
     name: 'Material UI',
+    description: 'Show material UI dialog',
+    component: MyMuiDialog,
+    code: ['MyMuiDialog.tsx'],
   },
   antd: {
     name: 'Ant Design',
+    description: 'Show/hide antd modal or drawer.',
+    component: MyAntdModal,
+    code: ['MyAntdModal.tsx'],
   },
   bootstrap: {
     name: 'Bootstrap React',
+    descript: 'Show/hide bootstrap dialog.',
+    component: MyBootstrapDialog,
+    code: ['MyBootstrapDialog.tsx'],
   },
   promise: {
     name: 'Promise',

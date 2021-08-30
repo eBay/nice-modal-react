@@ -4,10 +4,6 @@ import NiceModal, { useModal, bootstrapDialog } from '@ebay/nice-modal-react';
 
 const MyBootstrapDialog = NiceModal.create(({ name = 'Bootstrap' }: { name: string }) => {
   const modal = useModal();
-  const handleOk = () => {
-    console.log('on ok');
-    NiceModal.hide(MyBootstrapDialog);
-  };
   return (
     <BootstrapModal {...bootstrapDialog(modal)} title="Nice Modal">
       <BootstrapModal.Header closeButton>
@@ -19,14 +15,22 @@ const MyBootstrapDialog = NiceModal.create(({ name = 'Bootstrap' }: { name: stri
       </BootstrapModal.Body>
 
       <BootstrapModal.Footer>
-        <Button variant="secondary" onClick={handleOk}>
+        <Button variant="secondary" onClick={modal.hide}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleOk}>
+        <Button variant="primary" onClick={modal.hide}>
           Save changes
         </Button>
       </BootstrapModal.Footer>
     </BootstrapModal>
   );
 });
-export default MyBootstrapDialog;
+export default function BootstrapSample() {
+  return (
+    <>
+      <Button variant="primary" onClick={() => NiceModal.show(MyBootstrapDialog, { name: 'Bootstrap' })}>
+        Show Dialog
+      </Button>
+    </>
+  );
+}

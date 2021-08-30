@@ -5,6 +5,8 @@ import codeAntd from '!!raw-loader!./MyAntdModal.tsx';
 import codeUserList from '!!raw-loader!./UserList.jsx';
 import codeUserInfoModal from '!!raw-loader!./UserInfoModal.jsx';
 import codePromiseSample from '!!raw-loader!./PromiseSample.jsx';
+import codeMyMuiDialog from '!!raw-loader!./MyMuiDialog.tsx';
+import codeMyBootstrapDialog from '!!raw-loader!./MyBootstrapDialog.tsx';
 // import codeAntd from '!!raw-loader!./MyAntdModal.tsx';
 
 const codeMap = {
@@ -12,6 +14,8 @@ const codeMap = {
   'UserInfoModal.jsx': codeUserInfoModal,
   'UserList.jsx': codeUserList,
   'PromiseSample.jsx': codePromiseSample,
+  'MyMuiDialog.tsx': codeMyMuiDialog,
+  'MyBootstrapDialog.tsx': codeMyBootstrapDialog,
 };
 export default function CodeViewer({ filename }) {
   useEffect(() => {

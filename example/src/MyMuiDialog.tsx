@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
-import { create, useModal, muiDialog } from '@ebay/nice-modal-react';
+import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -16,18 +16,16 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default create(() => {
+const MyMuiDialog = NiceModal.create(() => {
   const modal = useModal();
-  const handleClose = () => modal.hide();
-
   return (
     <Dialog
-      {...muiDialog(modal)}
       TransitionComponent={Transition}
-      keepMounted
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-slide-title"
-      aria-describedby="alert-dialog-slide-description"
+      open={modal.visible}
+      onClose={() => modal.hide()}
+      TransitionProps={{
+        onExited: () => modal.remove(),
+      }}
     >
       <DialogTitle id="alert-dialog-slide-title">{"Use Google's location service?"}</DialogTitle>
       <DialogContent>
@@ -47,3 +45,11 @@ export default create(() => {
     </Dialog>
   );
 });
+
+export default function MuiDialogSample() {
+  return (
+    <Button variant="contained" onClick={() => NiceModal.show(MyMuiDialog)} color="primary">
+      Agree
+    </Button>
+  );
+}
