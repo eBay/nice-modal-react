@@ -6,6 +6,7 @@ import PromiseSample from './PromiseSample';
 import MyMuiDialog from './MyMuiDialog';
 import MyAntdModal from './MyAntdModal';
 import MyBootstrapDialog from './MyBootstrapDialog';
+import ReduxIntegration from './ReduxIntegration';
 
 const examples = {
   real: {
@@ -40,6 +41,9 @@ const examples = {
   },
   redux: {
     name: 'Redux Integration',
+    description: 'Use Redux to manage modals state so that you can use Redux dev tools to debug nice modals.',
+    component: ReduxIntegration,
+    code: ['ReduxIntegration.jsx'],
   },
 };
 

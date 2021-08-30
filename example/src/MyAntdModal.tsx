@@ -1,7 +1,7 @@
 import { Modal, Button, Drawer, Space } from 'antd';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
-const MyAntdModal = NiceModal.create(({ name }: { name: string }) => {
+export const MyAntdModal = NiceModal.create(({ name }: { name: string }) => {
   const modal = useModal();
   return (
     <Modal title="Hello Antd" visible={modal.visible} onOk={modal.hide} onCancel={modal.hide} afterClose={modal.remove}>

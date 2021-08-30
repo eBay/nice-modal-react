@@ -7,7 +7,7 @@ import codeUserInfoModal from '!!raw-loader!./UserInfoModal.jsx';
 import codePromiseSample from '!!raw-loader!./PromiseSample.jsx';
 import codeMyMuiDialog from '!!raw-loader!./MyMuiDialog.tsx';
 import codeMyBootstrapDialog from '!!raw-loader!./MyBootstrapDialog.tsx';
-// import codeAntd from '!!raw-loader!./MyAntdModal.tsx';
+import codeReduxIntegration from '!!raw-loader!./ReduxIntegration.jsx';
 
 const codeMap = {
   'MyAntdModal.tsx': codeAntd,
@@ -16,6 +16,7 @@ const codeMap = {
   'PromiseSample.jsx': codePromiseSample,
   'MyMuiDialog.tsx': codeMyMuiDialog,
   'MyBootstrapDialog.tsx': codeMyBootstrapDialog,
+  'ReduxIntegration.jsx': codeReduxIntegration,
 };
 export default function CodeViewer({ filename }) {
   useEffect(() => {
