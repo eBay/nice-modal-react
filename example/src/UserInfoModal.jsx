@@ -23,7 +23,8 @@ export default NiceModal.create(({ user }) => {
       } else {
         newUser.id = user.id;
       }
-      modal.hide(newUser);
+      modal.resolve(newUser);
+      modal.hide();
     });
   }, [modal, user, form]);
   return (

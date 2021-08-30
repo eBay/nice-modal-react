@@ -44,7 +44,9 @@ export interface NiceModalHandler extends NiceModalState {
   visible: boolean;
   keepMounted: boolean;
   show: (args?: unknown) => Promise<unknown>;
-  hide: (args?: unknown) => void;
+  hide: () => void;
+  resolve: (args?: unknown) => void;
+  reject: (args?: unknown) => void;
   remove: () => void;
 }
 
@@ -194,16 +196,16 @@ export const show = (modal: string | React.FC<any>, args?: Record<string, unknow
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const hide = (modal: string | React.FC<any>, args?: unknown): void => {
+export const hide = (modal: string | React.FC<any>): void => {
   const modalId = getModalId(modal);
   dispatch(hideModal(modalId));
-  const callback = modalCallbacks[modalId];
-  if (!(args instanceof Error) && callback?.resolve) {
-    callback.resolve(args);
-  } else if (args instanceof Error && callback?.reject) {
-    callback.reject(args);
-  }
-  delete modalCallbacks[modalId];
+  // const callback = modalCallbacks[modalId];
+  // if (!(args instanceof Error) && callback?.resolve) {
+  //   callback.resolve(args);
+  // } else if (args instanceof Error && callback?.reject) {
+  //   callback.reject(args);
+  // }
+  // delete modalCallbacks[modalId];
 };
 
 export const remove = (modalId: string): void => {
@@ -250,8 +252,14 @@ export const useModal = (...params: UseModalArgs): NiceModalHandler => {
       visible: !!modalInfo?.visible,
       keepMounted: !!modalInfo?.keepMounted,
       show: (args?: Record<string, unknown>) => show(mid, args),
-      hide: (args?: unknown) => hide(mid, args),
+      hide: () => hide(mid),
       remove: () => remove(mid),
+      resolve: (args?: unknown) => {
+        modalCallbacks[mid]?.resolve(args);
+      },
+      reject: (args?: unknown) => {
+        modalCallbacks[mid]?.reject(args);
+      },
     }),
     [mid, modalInfo],
   );

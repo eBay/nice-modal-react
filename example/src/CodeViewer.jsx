@@ -4,12 +4,14 @@ import React, { useEffect } from 'react';
 import codeAntd from '!!raw-loader!./MyAntdModal.tsx';
 import codeUserList from '!!raw-loader!./UserList.jsx';
 import codeUserInfoModal from '!!raw-loader!./UserInfoModal.jsx';
+import codePromiseSample from '!!raw-loader!./PromiseSample.jsx';
 // import codeAntd from '!!raw-loader!./MyAntdModal.tsx';
 
 const codeMap = {
   'MyAntdModal.tsx': codeAntd,
   'UserInfoModal.jsx': codeUserInfoModal,
   'UserList.jsx': codeUserList,
+  'PromiseSample.jsx': codePromiseSample,
 };
 export default function CodeViewer({ filename }) {
   useEffect(() => {

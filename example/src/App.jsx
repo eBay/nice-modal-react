@@ -2,6 +2,7 @@ import useHash from './useHash';
 import CodeViewer from './CodeViewer';
 import UserList from './UserList';
 import './App.css';
+import PromiseSample from './PromiseSample';
 
 const examples = {
   real: {
@@ -21,6 +22,9 @@ const examples = {
   },
   promise: {
     name: 'Promise',
+    description: 'Use promise to interact with the dialog.',
+    component: PromiseSample,
+    code: ['PromiseSample.jsx'],
   },
   redux: {
     name: 'Redux Integration',
