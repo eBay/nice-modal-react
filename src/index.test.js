@@ -103,7 +103,8 @@ const testUseModal = async (modal) => {
   expect(modalTextElement).toBeInTheDocument();
 
   act(() => {
-    modal.hide({ resolved: true });
+    modal.resolve({ resolved: true });
+    modal.hide();
   });
 
   modalTextElement = screen.queryByText('HocTestModal');
@@ -121,7 +122,8 @@ const testUseModal = async (modal) => {
   });
 
   act(() => {
-    modal.hide(new Error('sample error'));
+    modal.reject(new Error('sample error'));
+    modal.hide();
   });
 
   await waitForElementToBeRemoved(screen.queryByText('HocTestModal'));
