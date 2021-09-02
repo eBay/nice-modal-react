@@ -68,7 +68,9 @@ const MODAL_REGISTRY: {
 const ALREADY_MOUNTED = {};
 
 let uidSeed = 0;
-let dispatch: React.Dispatch<NiceModalAction>;
+let dispatch: React.Dispatch<NiceModalAction> = () => {
+  throw new Error('No dispatch method detected, did you embed your app with NiceModal.Provider?');
+};
 const getUid = () => `_nice_modal_${uidSeed++}`;
 
 // Modal reducer used in useReducer hook.
