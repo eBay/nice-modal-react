@@ -236,10 +236,79 @@ By default NiceModal uses React context and `useReducer` internally to manage mo
 ```
 
 ### Using with any UI library
+NiceModal provides  lifecyle methods to manage the state of modals. You can use modal handler returned by `useModal` hook to bind any modal like component to the state. Below are typical state and methods you will use:
+
+* **modal.visible**: the visibility of a modal.
+* **modal.hide**: will hide the modal, that is, change `modal.visible` to false.
+* **modal.remove**: remove the modal component from the tree so that you modal's code is not executed when it's invisible. Usually you call this method after the modal's transition.
+* **modal.keepMounted** if you don't want to remove the modal from the tree for some instances, you can decide if call `modal.remove` based on value of `keepMounted`.
+
+Based on these properties/methods, you can easily use NiceModal with any modal-like component provided by any UI libraries.
 
 ### Using help methods
+As you already saw, we use code similar with below to manage the modal state:
+
+```jsx
+//...
+const modal = useModal();
+return (
+  <Modal
+    visible={modal.visible}
+    title="Hello Antd"
+    onOk={() => modal.hide()}
+    onCancel={() => modal.hide()}
+    afterClose={() => modal.remove()}
+  >
+    Hello NiceModal!
+  </Modal>
+);
+//...
+```
+
+It binds `visible` property to the `modal` handler, and use `modal.hide` to hide the modal when close button is clicked. And after the close transition it calls `modal.remove` to remove the modal from dom node.
+
+For every modal implementation we always need to these binding manually. So, to make it easier to use we provides helper methods for 3 popular UI librarys Material UI , Ant.Design and Bootstrap React.
+
+
+```jsx
+import NiceModal, {
+  muiDialog,
+  antdModal,
+  antdDrawer,
+  bootstrapDialog
+} from '@ebay/nice-modal-react';
+
+//...
+const modal = useModal();
+// For MUI
+<Dialog {...muiDialog(modal)}>
+
+// For ant.design
+<Modal {...antdModal(modal)}>
+
+// For antd drawer
+<Drawer {...antdDrawer(modal)}>
+
+// For bootstrap dialog
+<Dialog {...bootstrapDialog(modal)}>
+
+```
+
+These helpers will bind modal's common actions to correct properties of the component. However you can always override the property after the helpers property. For example:
+
+```jsx
+const handleSubmit = () => {
+  doSubmit().then(() => {
+    modal.hide();
+  });
+}
+<Modal {...antdModal(modal)} onOk={handleSubmit}>
+```
+
+In the example, the `onOk` property will override the result from `antdModal` helper.
 
 ## API Reference
+https://ebay.github.io/nice-modal-react/api/
 
 # License
 MIT
