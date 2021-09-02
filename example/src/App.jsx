@@ -1,3 +1,4 @@
+import NiceModal from '@ebay/nice-modal-react';
 import useHash from './useHash';
 import CodeViewer from './CodeViewer';
 import UserList from './UserList';
@@ -67,7 +68,7 @@ function App() {
     );
   };
   const example = examples[current] || {};
-  return (
+  const ele = (
     <div className="app">
       <div className="sider">
         <h1>
@@ -109,6 +110,9 @@ function App() {
       </div>
     </div>
   );
+
+  if (current === 'redux') return ele;
+  else return <NiceModal.Provider>{ele}</NiceModal.Provider>;
 }
 
 export default App;
