@@ -36,7 +36,7 @@ NiceModal.show('my-modal', { someProp: 'hello' }).then(() => {
 
 ```
 
-> Note: this is not a React modal component but should be used with other modal/dialog implementions by UI libraries like [Material UI](https://material-ui.com/), [Ant.Design](https://ant.design), [Bootstrap React](https://react-bootstrap.github.io/), etc.
+**NOTE**: `@ebay/nice-modal-react` is not a React modal component but should be used with other modal/dialog implementions by UI libraries like [Material UI](https://material-ui.com/), [Ant.Design](https://ant.design), [Bootstrap React](https://react-bootstrap.github.io/), etc.
 
 # Examples
 You can see a list of examples at: https://ebay.github.io/nice-modal-react
