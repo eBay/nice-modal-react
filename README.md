@@ -1,18 +1,61 @@
 # Nice Modal
 
+This is a small, zero dependency utility to manage modals in a nature way for React. It uses context to persist state of modals globally so that you can show/hide a modal easily either by the modal component or id.
+
 [![NPM](https://img.shields.io/npm/v/@ebay/nice-modal-react.svg)](https://www.npmjs.com/package/@ebay/nice-modal-react)
 [![Build Status](https://api.travis-ci.com/eBay/nice-modal-react.svg?branch=main)](https://app.travis-ci.com/github/eBay/nice-modal-react)
 [![Coverage Status](https://img.shields.io/codecov/c/github/eBay/nice-modal-react/main.svg)](https://codecov.io/github/eBay/nice-modal-react)
+[![Demo](https://img.shields.io/badge/demo-link-blue.svg)](https://ebay.github.io/nice-modal-react/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-This is a small, zero dependency utility to manage modals of your React application. It allows you to manage modals just like managing pages with a router in React. It's not a React modal component but should be used with other UI libraries which provide modal components like Material UI, Ant.Design, Bootstrap React, etc.
+For example, you can use below code to show a modal anywhere:
+
+```jsx
+import NiceModal from '@ebay/nice-modal-react';
+import MyModal from './MyModal';
+
+//...
+NiceModal.show(MyModal, { someProp: 'hello' }).then(() => {
+  // do something if the task in the modal finished.
+});
+//...
+```
+
+Or you can register the modal with an id so that you don't need to import the modal component to use it:
+```jsx
+import NiceModal from '@ebay/nice-modal-react';
+import MyModal from './MyModal';
+
+NiceModal.register('my-modal', MyModal);
+
+// you can use the string id to show/hide the modal anywhere
+NiceModal.show('my-modal', { someProp: 'hello' }).then(() => {
+  // do something if the task in the modal finished.
+});
+//...
+
+```
+
+> Note: this is not a React modal component but should be used with other modal/dialog implementions by UI libraries like [Material UI](https://material-ui.com/), [Ant.Design](https://ant.design), [Bootstrap React](https://react-bootstrap.github.io/), etc.
+
+# Examples
+You can see a list of examples at: https://ebay.github.io/nice-modal-react
+
+# Key Features
+* Zero dependency and small: ~2kb after gzip.
+* Uncontrolled. You can close modal itself in the modal component.
+* Decoupled. You don't have to import a modal component to use it. Modals can be managed by id.
+* The code of your modal component is not executed if it's invisible.
+* It doesn't break the transitions of showing/hiding a modal.
+* Promise based. Besides using props to interact with the modal from the parent component, you can do it easier by promise.
+* Easy to integrate with any UI library.
 
 # Motivation
 Using modals in React is a bit frustrating. Think of that if you need to implement below UI:
 
 <img src="images/modal-example.png" width="500px"/>
 
-Usually, the first question in your mind is where to declare the modal via JSX. As the dialog in the picture may be showed in any page, it doesn't belong to any page component. So you probally put it in the Root component, for example:
+Usually, to implement it, the first question in your mind is where to declare the modal via JSX. As the dialog in the picture may be showed in any page, it doesn't belong to any page component. So you probally put it in the Root component, for example:
 
 ```jsx
 const Root = () => {
@@ -36,9 +79,7 @@ Unfortunately, most examples of using modals just follow this practice, it cause
 
 I believe you must once encountered with the scenario that originally you only needed to show a modal when click a button, then when requirements changed, you need to open the same modal from a different place. Then you have to refactor your code to re-consider where to declare the modal. The root cause of such annoying things is just because we have not understood the essential of a modal.
 
-To resolve the problems, we need to re-think how we implement modals in React.
-
-# Re-think the Modal Usage Pattern in React
+# Rethink the Modal Usage Pattern in React
 According to the [wikipedia](https://en.wikipedia.org/wiki/Modal_window), a modal can be described as: 
 
 > A window that prevents the user from interacting with your application until he closes the window.
@@ -49,17 +90,7 @@ This is very similar with the page concept in a single page UI application. The 
 
 For pages management, we already have router framework like React Router, it helps to navigate to a page by URL. Actually, you can think URL a global id for a page. So, similarly, what if you assign a uniq id to a modal then show/hide it by the id? This is just how we designed NiceModal.
 
-With NiceModal, you will be able to manage the modals in a gobal and unified way.
-
-# Features
-Basically, `nice-modal-react` manages state of all modals at a global place (React context by default, optionally Redux). And it provides APIs to show/hide/remove a modal from the page. Here's the list of key features:
-
-* Be able to use with any UI library.
-* Zero dependency and small: ~2kb after gzip.
-* Modals are uncontrolled. That is, you can close itself in the modal component.
-* The code of your modal component is not executed if it's invisible.
-* It should not break the transitions of showing/hiding a modal.
-* Promise based. Besides using props to interact with the modal from the parent component, you can do it easier by promise.
+However, besides using id, NiceModal allows to use the modal component directly to manage it.
 
 # Usage
 ## Installation
@@ -80,6 +111,7 @@ import { Modal } from 'antd';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
 export default NiceModal.create(({ name }) => {
+  // Use a hook to manage the modal state
   const modal = useModal();
   return (
     <Modal
@@ -119,10 +151,32 @@ ReactDOM.render(
 );
 ```
 
-The provider will use React context to maintain all modals' status.
+The provider will use React context to maintain all modals' state.
+
+### Using the modal by component
+You can control a nice modal by the component itself.
+```js
+import NiceModal from '@ebay/nice-modal-react';
+import MyAntdModal from './my-antd-modal'; // created by above code
+
+function App() {
+  const showAntdModal = () => {
+    // Show a modal with arguments passed to the component as props
+    NiceModal.show(MyAntdModal, { name: 'Nate' })
+  };
+  return (
+    <div className="app">
+      <h1>Nice Modal Examples</h1>
+      <div className="demo-buttons">
+        <button onClick={showAntdModal}>Antd Modal</button>
+      </div>
+    </div>
+  );
+}
+```
 
 ### Use the modal by id
-You can control a nice modal by id or the component itself.
+You can also control a nice modal by id:
 ```js
 import NiceModal from '@ebay/nice-modal-react';
 import MyAntdModal from './my-antd-modal'; // created by above code
@@ -131,6 +185,7 @@ import MyAntdModal from './my-antd-modal'; // created by above code
 // Normally you create a modals.js file in your project
 // and register all modals there.
 NiceModal.register('my-antd-modal', MyAntdModal);
+
 function App() {
   const showAntdModal = () => {
     // Show a modal with arguments passed to the component as props
@@ -145,16 +200,6 @@ function App() {
     </div>
   );
 }
-```
-
-### Use modal component without id
-If you don't want to use a string to show/hide a modal, you can use the component directly.
-
-```jsx
-import MyAntdModal from './MyAntdModal';
-//...
-NiceModal.show(MyAntdModal, { name: 'Nate' });
-//...
 ```
 
 
@@ -227,12 +272,46 @@ NiceModal.show(AddUserModal)
 You can see the live example on codesandbox.
 
 ### Integrating with Redux
-By default NiceModal uses React context and `useReducer` internally to manage modal state. However you can easily integrate it with Redux if you want to tracking/debugging the state change of your modals with Redux dev tools. Below code shows how to do it:
+Though not necessary, you can integrate Redux to manage state of nice modals. Then you can use Redux dev tools to track/debug state change of modals. Here is how to do it:
 
 ```jsx
 // First combine the reducer
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import NiceModal from '@ebay/nice-modal-react';
+import { Button } from 'antd';
+import { MyAntdModal } from './MyAntdModal';
+import logger from 'redux-logger';
+
+const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const enhancer = composeEnhancers(applyMiddleware(logger));
+
+const store = createStore(
+  combineReducers({
+    modals: NiceModal.reducer,
+    // other reducers...
+  }),
+  enhancer,
+);
 
 // Passing Redux state to the nice modal provider
+const ModalsProvider = ({ children }) => {
+  const modals = useSelector((s) => s.modals);
+  const dispatch = useDispatch();
+  return (
+    <NiceModal.Provider modals={modals} dispatch={dispatch}>
+      {children}
+    </NiceModal.Provider>
+  );
+};
+
+export default function ReduxProvider({ children }) {
+  return (
+    <Provider store={store}>
+      <ModalsProvider>{children}</ModalsProvider>
+    </Provider>
+  );
+}
 ```
 
 ### Using with any UI library
