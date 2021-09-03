@@ -37,6 +37,20 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+test('throw error if no provider', async () => {
+  render(<div />);
+
+  let err;
+  act(() => {
+    try {
+      NiceModal.show('test-modal-without-provider');
+    } catch (e) {
+      err = e;
+    }
+    expect(err).toBeInstanceOf(Error);
+  });
+});
+
 const TestModal = ({ visible = false, onExited, onClose, onCancel, children }) => {
   const lastVisibleRef = useRef(visible);
   const lastVisible = lastVisibleRef.current;
