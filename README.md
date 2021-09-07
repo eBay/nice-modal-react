@@ -1,6 +1,6 @@
 # Nice Modal
 
-This is a small, zero dependency utility to manage modals in a nature way for React. It uses context to persist state of modals globally so that you can show/hide a modal easily either by the modal component or id.
+This is a small, zero dependency utility to manage modals in a natural way for React. It uses context to persist state of modals globally so that you can show/hide a modal easily either by the modal component or id.
 
 [![NPM](https://img.shields.io/npm/v/@ebay/nice-modal-react.svg)](https://www.npmjs.com/package/@ebay/nice-modal-react)
 [![Build Status](https://api.travis-ci.com/eBay/nice-modal-react.svg?branch=main)](https://app.travis-ci.com/github/eBay/nice-modal-react)
