@@ -201,13 +201,6 @@ export const show = (modal: string | React.FC<any>, args?: Record<string, unknow
 export const hide = (modal: string | React.FC<any>): void => {
   const modalId = getModalId(modal);
   dispatch(hideModal(modalId));
-  // const callback = modalCallbacks[modalId];
-  // if (!(args instanceof Error) && callback?.resolve) {
-  //   callback.resolve(args);
-  // } else if (args instanceof Error && callback?.reject) {
-  //   callback.reject(args);
-  // }
-  // delete modalCallbacks[modalId];
 };
 
 export const remove = (modalId: string): void => {
