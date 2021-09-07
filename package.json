@@ -12,6 +12,7 @@
     "build:cjs": "tsc --module commonjs --outDir lib/cjs",
     "dev": "tsc -w",
     "codecov": "codecov",
+    "gendoc": "typedoc",
     "test": "jest"
   },
   "files": [
