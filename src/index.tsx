@@ -41,9 +41,16 @@ interface NiceModalCallbacks {
 }
 
 export interface NiceModalHandler extends NiceModalState {
+  /**
+   * Whether a modal is visible, it's controlled by show/hide method.
+   */
   visible: boolean;
   keepMounted: boolean;
-  show: (args?: unknown) => Promise<unknown>;
+  /**
+   * Show the modal, it will change `visible` state to true.
+   * @param args - an object passed to modal component as props.
+   */
+  show: (args?: Record<string, unknown>) => Promise<unknown>;
   hide: () => void;
   resolve: (args?: unknown) => void;
   reject: (args?: unknown) => void;
