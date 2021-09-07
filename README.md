@@ -55,6 +55,8 @@ Using modals in React is a bit frustrating. Think of that if you need to impleme
 
 <img src="images/modal-example.png" width="500px"/>
 
+> *Image from: http://ui-patterns.com/patterns/modal-windows*
+
 Usually, to implement it, the first question in your mind is where to declare the modal via JSX. As the dialog in the picture may be showed in any page, it doesn't belong to any page component. So you probally put it in the Root component, for example:
 
 ```jsx
