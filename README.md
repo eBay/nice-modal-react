@@ -391,6 +391,35 @@ In the example, the `onOk` property will override the result from `antdModal` he
 ## API Reference
 https://ebay.github.io/nice-modal-react/api/
 
+## Contribution Guide
+```bash
+# 1. Clone repo
+git clone https://github.com/eBay/nice-modal-react.git
+
+# 2. Install deps
+cd nice-modal-react
+yarn
+
+# 3. Make local repo as linked
+yarn link
+
+# 4. Start dev server
+yarn dev
+
+# 5. Install examples deps
+cd example
+yarn
+
+# 6. Use local linked lib
+yarn link @ebay/nice-modal-react
+
+# 7. Start examples dev server
+yarn start
+```
+
+Then you can access http://localhost:3000 to see the examples.
+
+
 # License
 MIT
 
