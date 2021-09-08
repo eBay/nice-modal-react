@@ -5,7 +5,7 @@ This is a small, zero dependency utility to manage modals in a natural way for R
 [![NPM](https://img.shields.io/npm/v/@ebay/nice-modal-react.svg)](https://www.npmjs.com/package/@ebay/nice-modal-react)
 [![Build Status](https://api.travis-ci.com/eBay/nice-modal-react.svg?branch=main)](https://app.travis-ci.com/github/eBay/nice-modal-react)
 [![Coverage Status](https://img.shields.io/codecov/c/github/eBay/nice-modal-react/main.svg)](https://codecov.io/github/eBay/nice-modal-react)
-[![Dependency Status](https://david-dm.org/ebay/nice-modal-react.svg)](https://david-dm.org/ebay/nice-modal-react)
+[![Dependency Status](https://status.david-dm.org/gh/ebay/nice-modal-react.svg)](https://david-dm.org/ebay/nice-modal-react)
 [![Demo](https://img.shields.io/badge/demo-link-orange.svg)](https://ebay.github.io/nice-modal-react/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
