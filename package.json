@@ -1,6 +1,6 @@
 {
   "name": "@ebay/nice-modal-react",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

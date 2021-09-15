@@ -60,7 +60,7 @@ export interface NiceModalHandler extends NiceModalState {
   /**
    * Hide the modal, it will change {@link NiceModalHandler.visible | visible} state to false.
    */
-  hide: () => void;
+  hide: () => Promise<unknown>;
   /**
    * Resolve the promise returned by {@link NiceModalHandler.show | show} method.
    */
@@ -73,6 +73,11 @@ export interface NiceModalHandler extends NiceModalState {
    * Remove the modal component from React component tree. It improves performance compared to just making a modal invisible.
    */
   remove: () => void;
+
+  /**
+   * Resolve the promise returned by {@link NiceModalHandler.hide | hide} method.
+   */
+  resolveHide: (args?: unknown) => void;
 }
 
 export interface NiceModalHocProps {
@@ -191,6 +196,7 @@ function removeModal(modalId: string): NiceModalAction {
 }
 
 const modalCallbacks: NiceModalCallbacks = {};
+const hideModalCallbacks: NiceModalCallbacks = {};
 const getModalId = (modal: string | React.FC): string => {
   if (typeof modal === 'string') return modal as string;
   if (!modal[symModalId]) {
@@ -223,14 +229,28 @@ export const show = (modal: string | React.FC<any>, args?: Record<string, unknow
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const hide = (modal: string | React.FC<any>): void => {
+export const hide = (modal: string | React.FC<any>): Promise<unknown> => {
   const modalId = getModalId(modal);
   dispatch(hideModal(modalId));
+  if (!hideModalCallbacks[modalId]) {
+    let theResolve;
+    let theReject;
+    const promise = new Promise((resolve, reject) => {
+      theResolve = resolve;
+      theReject = reject;
+    });
+    // TODO: how to avoid below typescript ignore
+    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    hideModalCallbacks[modalId] = { resolve: theResolve, reject: theReject, promise };
+  }
+  return hideModalCallbacks[modalId].promise;
 };
 
 export const remove = (modalId: string): void => {
   dispatch(removeModal(modalId));
   delete modalCallbacks[modalId];
+  delete hideModalCallbacks[modalId];
 };
 
 const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
@@ -276,9 +296,15 @@ export const useModal = (...params: UseModalArgs): NiceModalHandler => {
       remove: () => remove(mid),
       resolve: (args?: unknown) => {
         modalCallbacks[mid]?.resolve(args);
+        delete modalCallbacks[mid];
       },
       reject: (args?: unknown) => {
         modalCallbacks[mid]?.reject(args);
+        delete modalCallbacks[mid];
+      },
+      resolveHide: (args?: unknown) => {
+        hideModalCallbacks[mid]?.resolve(args);
+        delete hideModalCallbacks[mid];
       },
     }),
     [mid, modalInfo],
@@ -410,7 +436,11 @@ export const antdModal = (
     visible: modal.visible,
     onOk: () => modal.hide(),
     onCancel: () => modal.hide(),
-    afterClose: () => !modal.keepMounted && modal.remove(),
+    afterClose: () => {
+      // Need to resolve before remove
+      modal.resolveHide();
+      if (!modal.keepMounted) modal.remove();
+    },
   };
 };
 export const antdDrawer = (
@@ -419,14 +449,22 @@ export const antdDrawer = (
   return {
     visible: modal.visible,
     onClose: () => modal.hide(),
-    afterVisibleChange: (v: boolean) => !v && !modal.keepMounted && modal.remove(),
+    afterVisibleChange: (v: boolean) => {
+      if (!v) {
+        modal.resolveHide();
+      }
+      !v && !modal.keepMounted && modal.remove();
+    },
   };
 };
 export const muiDialog = (modal: NiceModalHandler): { open: boolean; onClose: () => void; onExited: () => void } => {
   return {
     open: modal.visible,
     onClose: () => modal.hide(),
-    onExited: () => !modal.keepMounted && modal.remove(),
+    onExited: () => {
+      modal.resolveHide();
+      !modal.keepMounted && modal.remove();
+    },
   };
 };
 export const bootstrapDialog = (
@@ -435,7 +473,10 @@ export const bootstrapDialog = (
   return {
     show: modal.visible,
     onHide: () => modal.hide(),
-    onExited: () => !modal.keepMounted && modal.remove(),
+    onExited: () => {
+      modal.resolveHide();
+      !modal.keepMounted && modal.remove();
+    },
   };
 };
 
