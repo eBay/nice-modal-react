@@ -76,7 +76,7 @@ const Root = () => {
 However, when you declare the modal in the root component, there are some issues:
 
 1. Not scalable. It's unreasonable to maintain the modal's state in the root component. When you need more modals you need to maintain much state, especially you need to maintain arguments for the modal.
-2. It's hard to show or hide the modal from children comopnonents. When you maintain the state in a component then you need to pass `setVisible` down to the place where you need to show or hide the modal. It makes things too complicated.
+2. It's hard to show or hide the modal from children components. When you maintain the state in a component then you need to pass `setVisible` down to the place where you need to show or hide the modal. It makes things too complicated.
 
 Unfortunately, most examples of using modals just follow this practice, it causes such confusions when managing modals in React.
 
@@ -89,7 +89,7 @@ According to the [wikipedia](https://en.wikipedia.org/wiki/Modal_window), a moda
 
 From the definition we can get a conclusion: a modal is a global view that's not necessarily related with a specific context.
 
-This is very similar with the page concept in a single page UI application. The visibility/ state of modals should be managed globally because, from the UI perspective, a modal could be showed above any page/componnet. The only difference between modal and page is: a modal allows you to not leave the current page to do some separate tasks.
+This is very similar with the page concept in a single page UI application. The visibility/ state of modals should be managed globally because, from the UI perspective, a modal could be showed above any page/component. The only difference between modal and page is: a modal allows you to not leave the current page to do some separate tasks.
 
 For pages management, we already have router framework like React Router, it helps to navigate to a page by URL. Actually, you can think URL a global id for a page. So, similarly, what if you assign a uniq id to a modal then show/hide it by the id? This is just how we designed NiceModal.
 
@@ -252,7 +252,7 @@ function App() {
 
 With this approach, you can get the benifits:
 * Inherit React context in the modal component under some component node.
-* Pass arguments to the modal componnent via props.
+* Pass arguments to the modal component via props.
 
 > NOTE: if you show the component by id but the modal is not declared or registered. Nothing will happen but only a warning message in the dev console.
 
