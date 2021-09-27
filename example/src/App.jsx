@@ -4,6 +4,7 @@ import CodeViewer from './CodeViewer';
 import UserList from './UserList';
 import './App.css';
 import PromiseSample from './PromiseSample';
+import Declarative from './Declarative';
 import MyMuiDialog from './MyMuiDialog';
 import MyAntdModal from './MyAntdModal';
 import MyBootstrapDialog from './MyBootstrapDialog';
@@ -39,6 +40,12 @@ const examples = {
     description: 'Use promise to interact with the dialog.',
     component: PromiseSample,
     code: ['PromiseSample.jsx'],
+  },
+  declarative: {
+    name: 'Declarative',
+    description: 'Declarative way to register a modal with id.',
+    component: Declarative,
+    code: ['Declarative.jsx'],
   },
   redux: {
     name: 'Redux Integration',

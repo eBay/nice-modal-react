@@ -6,6 +6,7 @@
  * https://opensource.org/licenses/MIT.
 *********************************************************** */
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * @module NiceModal
  * */
@@ -80,7 +81,7 @@ export interface NiceModalHandler extends NiceModalState {
   resolveHide: (args?: unknown) => void;
 }
 
-export interface NiceModalHocProps {
+export interface NiceModalHocProps extends Record<string, unknown> {
   id: string;
   defaultVisible?: boolean;
   keepMounted?: boolean;
@@ -91,7 +92,7 @@ const NiceModalContext = React.createContext<NiceModalStore>(initialState);
 const NiceModalIdContext = React.createContext<string | null>(null);
 const MODAL_REGISTRY: {
   [id: string]: {
-    comp: React.FC<NiceModalHocProps & Record<string, unknown>>;
+    comp: React.FC<any>;
     props?: Record<string, unknown>;
   };
 } = {};
@@ -197,7 +198,7 @@ function removeModal(modalId: string): NiceModalAction {
 
 const modalCallbacks: NiceModalCallbacks = {};
 const hideModalCallbacks: NiceModalCallbacks = {};
-const getModalId = (modal: string | React.FC): string => {
+const getModalId = (modal: string | React.FC<any>): string => {
   if (typeof modal === 'string') return modal as string;
   if (!modal[symModalId]) {
     modal[symModalId] = getUid();
@@ -205,7 +206,6 @@ const getModalId = (modal: string | React.FC): string => {
   return modal[symModalId];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const show = (modal: string | React.FC<any>, args?: Record<string, unknown>): Promise<unknown> => {
   const modalId = getModalId(modal);
   if (typeof modal !== 'string' && !MODAL_REGISTRY[modalId]) {
@@ -228,7 +228,6 @@ export const show = (modal: string | React.FC<any>, args?: Record<string, unknow
   return modalCallbacks[modalId].promise;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const hide = (modal: string | React.FC<any>): Promise<unknown> => {
   const modalId = getModalId(modal);
   dispatch(hideModal(modalId));
@@ -358,13 +357,20 @@ export const create = <P extends Record<string, unknown>>(
 };
 
 // All registered modals will be rendered in modal placeholder
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const register = (id: string, comp: React.FC<any>, props?: Record<string, unknown>): void => {
   if (!MODAL_REGISTRY[id]) {
     MODAL_REGISTRY[id] = { comp, props };
   } else {
     MODAL_REGISTRY[id].props = props;
   }
+};
+
+/**
+ * Unregister a modal.
+ * @param id - The id of the modal.
+ */
+export const unregister = (id: string): void => {
+  delete MODAL_REGISTRY[id];
 };
 
 // The placeholder component is used to auto render modals when call modal.show()
@@ -407,8 +413,7 @@ const InnerContextProvider: React.FC = ({ children }) => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const Provider: React.FC<any> = ({
+export const Provider: React.FC<Record<string, unknown>> = ({
   children,
   dispatch: givenDispatch,
   modals: givenModals,
@@ -427,6 +432,28 @@ export const Provider: React.FC<any> = ({
       <NiceModalPlaceholder />
     </NiceModalContext.Provider>
   );
+};
+
+/**
+ * Declarative way to register a modal.
+ * @param id - The id of the modal.
+ * @param component - The modal Component.
+ * @returns
+ */
+export const ModalDef: React.FC<Record<string, unknown>> = ({
+  id,
+  component,
+}: {
+  id: string;
+  component: React.FC<any>;
+}) => {
+  useEffect(() => {
+    register(id, component);
+    return () => {
+      unregister(id);
+    };
+  }, [id, component]);
+  return null;
 };
 
 export const antdModal = (
@@ -482,6 +509,7 @@ export const bootstrapDialog = (
 
 export default {
   Provider,
+  ModalDef,
   create,
   register,
   show,
