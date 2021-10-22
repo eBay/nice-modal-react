@@ -57,7 +57,7 @@ Using modals in React is a bit frustrating. Think of that if you need to impleme
 
 > *Image from: http://ui-patterns.com/patterns/modal-windows*
 
-Usually, to implement it, the first question in your mind is where to declare the modal via JSX. As the dialog in the picture may be showed in any page, it doesn't belong to any page component. So you probally put it in the Root component, for example:
+Usually, to implement it, the first question in your mind is where to declare the modal via JSX. As the dialog in the picture may be showed in any page, it doesn't belong to any page component. So you probably put it in the Root component, for example:
 
 ```jsx
 const Root = () => {
@@ -130,7 +130,7 @@ export default NiceModal.create(({ name }) => {
 
 From the code, we can see:
 * The modal is uncontrolled. You can hide your modal inside the component regardless where it is showed.
-* The high order component created by `NiceModa.create` ensures your component is not executed before it becomes visible.
+* The high order component created by `NiceModal.create` ensures your component is not executed before it becomes visible.
 * You can call `modal.remove` to remove your modal component from the React component tree to reserve transitions.
 
 Next, let's see how to use the modal.
@@ -256,7 +256,7 @@ With this approach, you can get the benifits:
 > NOTE: if you show the component by id but the modal is not declared or registered. Nothing will happen but only a warning message in the dev console.
 
 ### Using promise API
-Besides using props to interact with the modal from the parent component, you can do it easier by promise. For example, we have a user list page with a add user button to show a dialog to add user. After user is added the list should refresh itself to refelect the change, then we can use below code:
+Besides using props to interact with the modal from the parent component, you can do it easier by promise. For example, we have a user list page with a add user button to show a dialog to add user. After user is added the list should refresh itself to reflect the change, then we can use below code:
 
 ```jsx
 NiceModal.show(AddUserModal)
@@ -348,7 +348,7 @@ return (
 
 It binds `visible` property to the `modal` handler, and use `modal.hide` to hide the modal when close button is clicked. And after the close transition it calls `modal.remove` to remove the modal from dom node.
 
-For every modal implementation we always need to these binding manually. So, to make it easier to use we provides helper methods for 3 popular UI librarys Material UI , Ant.Design and Bootstrap React.
+For every modal implementation we always need to these binding manually. So, to make it easier to use we provides helper methods for 3 popular UI libraries Material UI, Ant.Design and Bootstrap React.
 
 
 ```jsx
