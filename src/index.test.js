@@ -3,6 +3,7 @@ import { render, screen, fireEvent, waitForElementToBeRemoved, act } from '@test
 import NiceModal, {
   useModal,
   Provider,
+  ModalDef,
   register,
   create,
   antdDrawer,
@@ -96,7 +97,7 @@ test('provider children is correctly rendered', () => {
   expect(childText).toBeInTheDocument();
 });
 
-const testUseModal = async (modal) => {
+const testUseModal = async (modal, props = {}) => {
   let modalTextElement = screen.queryByText('HocTestModal');
   expect(modalTextElement).not.toBeInTheDocument();
 
@@ -104,11 +105,11 @@ const testUseModal = async (modal) => {
   let rejected = null;
 
   act(() => {
-    modal.show().then((res = true) => resolved.push(res));
+    modal.show(props).then((res = true) => resolved.push(res));
   });
 
   act(() => {
-    modal.show().then((res = true) => resolved.push(res));
+    modal.show(props).then((res = true) => resolved.push(res));
   });
   modalTextElement = screen.queryByText('HocTestModal');
   expect(modalTextElement).toBeInTheDocument();
@@ -168,6 +169,20 @@ test('useModal by id of declared modal via JSX', async () => {
   };
   render(<App />);
   await testUseModal(modal);
+});
+
+test('useModal by id of declared modal via ModalDef', async () => {
+  let modal;
+  const App = () => {
+    modal = useModal('mytestmodal2');
+    return (
+      <Provider>
+        <ModalDef  id="mytestmodal2" component={HocTestModal} />
+      </Provider>
+    );
+  };
+  render(<App />);
+  await testUseModal(modal, { name: 'bood'});
 });
 
 test('useModal by component directly', async () => {
