@@ -53,7 +53,7 @@ You can see a list of examples at: https://ebay.github.io/nice-modal-react
 # Motivation
 Using modals in React is a bit frustrating. Think of that if you need to implement below UI:
 
-<img src="images/modal-example.jpg" width="500px"/>
+<img src="images/modal-example.jpg" width="700px"/>
 
 The dialog is used to create a JIRA ticket. It could be shown from many places, from the header, to the context menu, to the list page. Traditionally, we had declared modal components with a JSX tag. But then the question became, “Where should we declare the tag?”
 
