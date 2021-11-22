@@ -53,11 +53,13 @@ You can see a list of examples at: https://ebay.github.io/nice-modal-react
 # Motivation
 Using modals in React is a bit frustrating. Think of that if you need to implement below UI:
 
-<img src="images/modal-example.png" width="500px"/>
+<img src="images/modal-example.jpg" width="500px"/>
 
-> *Image from: http://ui-patterns.com/patterns/modal-windows*
+The dialog is used to create a JIRA ticket. It could be shown from many places, from the header, to the context menu, to the list page. Traditionally, we had declared modal components with a JSX tag. But then the question became, “Where should we declare the tag?”
 
-Usually, to implement it, the first question in your mind is where to declare the modal via JSX. As the dialog in the picture may be showed in any page, it doesn't belong to any page component. So you probably put it in the Root component, for example:
+The most common option was to declare it wherever it was being used. But using modals in a declarative way is not only about a JSX tag, but also about maintaining the modal’s state like visibility, parameters in the container component. Declaring it everywehre means managing state everywhere. It's frustrating.
+
+The other option put it in the Root component, for example:
 
 ```jsx
 const Root = () => {
@@ -66,7 +68,7 @@ const Root = () => {
   return (
     <>
       <Main />
-      <AdsModal visible={visible} />
+      <NewTicketModal visible={visible} />
     </>
   );
 }
