@@ -124,7 +124,7 @@ export default NiceModal.create(({ name }) => {
       onCancel={() => modal.hide()}
       afterClose={() => modal.remove()}
     >
-      Hello ${name}!
+      Hello {name}!
     </Modal>
   );
 });
