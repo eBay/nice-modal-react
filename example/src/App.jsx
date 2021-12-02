@@ -102,7 +102,7 @@ function App() {
             <img src="https://img.shields.io/badge/API-Reference-green" alt="api reference" />
           </a>
           <br />
-          <a href="https://codesandbox.io/s/github/ebay/nice-modal-react/tree/master/examples">
+          <a href="https://codesandbox.io/s/github/ebay/nice-modal-react/tree/main/example">
             <img width="150px" src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="codesandbox" />
           </a>
         </div>
