@@ -17,7 +17,7 @@ export interface NiceModalState {
   id: string;
   args?: Record<string, unknown>;
   visible?: boolean;
-  deplayVisible?: boolean;
+  delayVisible?: boolean;
   keepMounted?: boolean;
 }
 
@@ -116,10 +116,10 @@ export const reducer = (state: NiceModalStore = initialState, action: NiceModalA
           id: modalId,
           args,
           // If modal is not mounted, mount it first then make it visible.
-          // There is logic inside HOC wrapper to make it visible after its frist mount.
+          // There is logic inside HOC wrapper to make it visible after its first mount.
           // This mechanism ensures the entering transition.
           visible: !!ALREADY_MOUNTED[modalId],
-          deplayVisible: !ALREADY_MOUNTED[modalId],
+          delayVisible: !ALREADY_MOUNTED[modalId],
         },
       };
     }
@@ -336,7 +336,7 @@ export const create = <P extends Record<string, unknown>>(
       if (keepMounted) setFlags(id, { keepMounted: true });
     }, [id, keepMounted]);
 
-    const delayVisible = modals[id]?.deplayVisible;
+    const delayVisible = modals[id]?.delayVisible;
     // If modal.show is called
     //  1. If modal was mounted, should make it visible directly
     //  2. If modal has not been mounted, should mount it first, then make it visible
