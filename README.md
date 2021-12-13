@@ -265,13 +265,13 @@ Besides using props to interact with the modal from the parent component, you ca
 ```jsx
 NiceModal.show(AddUserModal)
   .then(() => {
-    // When call modal.hide(payload) in the modal component
+    // When call modal.resolve(payload) in the modal component
     // it will resolve the promise returned by `show` method.
     // fetchUsers will call the rest API and update the list
     fetchUsers()
   })
   .catch(err=> {
-    // if modal.hide(new Error('something went wrong')), it will reject the promise
+    // if modal.reject(new Error('something went wrong')), it will reject the promise
   }); 
 ```
 
