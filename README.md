@@ -140,7 +140,7 @@ From the code, we can see:
 
 Next, let's see how to use the modal.
 
-## Using You Modal Component
+## Using Your Modal Component
 There are very flexible APIs for you to manage modals. See below for the introduction.
 
 ### Embed your application with `NiceModal.Provider`:
