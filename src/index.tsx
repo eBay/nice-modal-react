@@ -212,7 +212,7 @@ const getModalId = (modal: string | React.FC<any>): string => {
 type NiceModalArgs<T> = T extends
   | keyof JSX.IntrinsicElements
   | React.JSXElementConstructor<any>
-  ? Partial<Omit<React.ComponentProps<T>, 'id'>>
+  ? Omit<React.ComponentProps<T>, 'id'>
   : Record<string, unknown>;
 
 export function show<T extends React.FC<any>>(modal: T, args?: NiceModalArgs<T>): Promise<unknown>
@@ -241,7 +241,7 @@ export function show (modal: any, args?: any): Promise<unknown> {
     };
   }
   return modalCallbacks[modalId].promise;
-};
+}
 
 export const hide = (modal: string | React.FC<any>): Promise<unknown> => {
   const modalId = getModalId(modal);
@@ -280,7 +280,7 @@ export function useModal<T extends React.FC<any>>(modal: T, args?: NiceModalArgs
 export function useModal(modal?: any, args?: any): any {
   const modals = useContext(NiceModalContext);
   const contextModalId = useContext(NiceModalIdContext);
-  let modalId: string | null = null;
+  let modalId: string | null;
   const isUseComponent = modal && typeof modal !== 'string';
   if (!modal) {
     modalId = contextModalId;
@@ -325,12 +325,13 @@ export function useModal(modal?: any, args?: any): any {
     }),
     [mid, modalInfo],
   );
-};
-export const create = <P extends Record<string, unknown>>(
+}
+
+export function create<P>(
   Comp: React.ComponentType<P>,
-): React.FC<P & NiceModalHocProps> => {
-  return ({ defaultVisible, keepMounted, id, ...props }) => {
-    const { args, show } = useModal(id);
+): React.FC<P & NiceModalHocProps> {
+  return ({defaultVisible, keepMounted, id, ...props}) => {
+    const {args, show} = useModal(id);
 
     // If there's modal state, then should mount it.
     const modals = useContext(NiceModalContext);
@@ -350,7 +351,7 @@ export const create = <P extends Record<string, unknown>>(
     }, [id]); //eslint-disable-line
 
     useEffect(() => {
-      if (keepMounted) setFlags(id, { keepMounted: true });
+      if (keepMounted) setFlags(id, {keepMounted: true});
     }, [id, keepMounted]);
 
     const delayVisible = modals[id]?.delayVisible;
@@ -371,7 +372,7 @@ export const create = <P extends Record<string, unknown>>(
       </NiceModalIdContext.Provider>
     );
   };
-};
+}
 
 // All registered modals will be rendered in modal placeholder
 export const register = <T extends React.FC<any>>(id: string, comp: T, props?: NiceModalArgs<T>): void => {
