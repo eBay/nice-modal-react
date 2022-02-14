@@ -124,6 +124,7 @@ export default NiceModal.create(({ name }) => {
     <Modal
       title="Hello Antd"
       onOk={() => modal.hide()}
+      visible={modal.visible}
       onCancel={() => modal.hide()}
       afterClose={() => modal.remove()}
     >
