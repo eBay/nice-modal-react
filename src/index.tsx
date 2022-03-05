@@ -44,8 +44,7 @@ interface NiceModalCallbacks {
 /**
  * The handler to manage a modal returned by {@link useModal | useModal} hook.
  */
-export interface NiceModalHandler<Props = Record<string, unknown>>
-  extends NiceModalState {
+export interface NiceModalHandler<Props = Record<string, unknown>> extends NiceModalState {
   /**
    * Whether a modal is visible, it's controlled by {@link NiceModalHandler.show | show}/{@link NiceModalHandler.hide | hide} method.
    */
@@ -209,16 +208,14 @@ const getModalId = (modal: string | React.FC<any>): string => {
 };
 
 /** omit id and partial all required props */
-type NiceModalArgs<T> = T extends
-  | keyof JSX.IntrinsicElements
-  | React.JSXElementConstructor<any>
+type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
   ? Partial<Omit<React.ComponentProps<T>, 'id'>>
   : Record<string, unknown>;
 
-export function show<T extends React.FC<any>>(modal: T, args?: NiceModalArgs<T>): Promise<unknown>
-export function show<T extends string>(modal: T, args?: Record<string, unknown>): Promise<unknown>
+export function show<T extends React.FC<any>>(modal: T, args?: NiceModalArgs<T>): Promise<unknown>;
+export function show<T extends string>(modal: T, args?: Record<string, unknown>): Promise<unknown>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function show (modal: any, args?: any): Promise<unknown> {
+export function show(modal: any, args?: any): Promise<unknown> {
   const modalId = getModalId(modal);
   if (typeof modal !== 'string' && !MODAL_REGISTRY[modalId]) {
     register(modalId, modal as React.FC);
@@ -241,11 +238,13 @@ export function show (modal: any, args?: any): Promise<unknown> {
     };
   }
   return modalCallbacks[modalId].promise;
-};
+}
 
 export const hide = (modal: string | React.FC<any>): Promise<unknown> => {
   const modalId = getModalId(modal);
   dispatch(hideModal(modalId));
+  // Should also delete the callback for modal.resolve #35
+  delete modalCallbacks[modalId];
   if (!hideModalCallbacks[modalId]) {
     // `!` tell ts that theResolve will be written before it is used
     let theResolve!: (args?: unknown) => void;
@@ -273,9 +272,12 @@ export const remove = (modalId: string): void => {
 const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
   dispatch(setModalFlags(modalId, flags));
 };
-export function useModal(): NiceModalHandler
-export function useModal<T extends string>(modal: T, args?: Record<string, unknown>): NiceModalHandler
-export function useModal<T extends React.FC<any>>(modal: T, args?: NiceModalArgs<T>): NiceModalHandler<NiceModalArgs<T>>
+export function useModal(): NiceModalHandler;
+export function useModal<T extends string>(modal: T, args?: Record<string, unknown>): NiceModalHandler;
+export function useModal<T extends React.FC<any>>(
+  modal: T,
+  args?: NiceModalArgs<T>,
+): NiceModalHandler<NiceModalArgs<T>>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useModal(modal?: any, args?: any): any {
   const modals = useContext(NiceModalContext);
@@ -325,7 +327,7 @@ export function useModal(modal?: any, args?: any): any {
     }),
     [mid, modalInfo],
   );
-};
+}
 export const create = <P extends Record<string, unknown>>(
   Comp: React.ComponentType<P>,
 ): React.FC<P & NiceModalHocProps> => {
