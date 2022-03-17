@@ -1,3 +1,0 @@
-# Nice Modal Examples
-
-examples.
