@@ -397,6 +397,26 @@ In the example, the `onOk` property will override the result from `antdModal` he
 ## API Reference
 https://ebay.github.io/nice-modal-react/api/
 
+## Testing
+
+You can test your nice modals with tools like `@testing-library/react`.
+
+```jsx
+import NiceModal from '@ebay/nice-modal-react';
+import { render, act, screen } from '@testing-library/react';
+import { MyNiceModal } from '../MyNiceModal';
+
+test('My nice modal works!', () => {
+  render(<NiceModal.Provider />
+  
+  act(() => {
+    NiceModal.show(MyNiceModal);
+  });
+  
+  expect(screen.getByRole('dialog')).toBeVisible();
+});
+```
+
 ## Contribution Guide
 ```bash
 # 1. Clone repo
