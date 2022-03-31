@@ -93,7 +93,7 @@ const NiceModalContext = React.createContext<NiceModalStore>(initialState);
 const NiceModalIdContext = React.createContext<string | null>(null);
 const MODAL_REGISTRY: {
   [id: string]: {
-    comp: React.FC<any>;
+    comp: React.ComponentType<any>;
     props?: Record<string, unknown>;
   };
 } = {};
@@ -199,7 +199,7 @@ function removeModal(modalId: string): NiceModalAction {
 
 const modalCallbacks: NiceModalCallbacks = {};
 const hideModalCallbacks: NiceModalCallbacks = {};
-const getModalId = (modal: string | React.FC<any>): string => {
+const getModalId = (modal: string | React.ComponentType<any>): string => {
   if (typeof modal === 'string') return modal as string;
   if (!modal[symModalId]) {
     modal[symModalId] = getUid();
@@ -212,13 +212,13 @@ type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElement
   ? Partial<Omit<React.ComponentProps<T>, 'id'>>
   : Record<string, unknown>;
 
-export function show<T extends React.FC<any>>(modal: T, args?: NiceModalArgs<T>): Promise<unknown>;
+export function show<T extends React.ComponentType<any>>(modal: T, args?: NiceModalArgs<T>): Promise<unknown>;
 export function show<T extends string>(modal: T, args?: Record<string, unknown>): Promise<unknown>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function show(modal: any, args?: any): Promise<unknown> {
   const modalId = getModalId(modal);
   if (typeof modal !== 'string' && !MODAL_REGISTRY[modalId]) {
-    register(modalId, modal as React.FC);
+    register(modalId, modal as React.ComponentType);
   }
 
   dispatch(showModal(modalId, args));
@@ -240,7 +240,7 @@ export function show(modal: any, args?: any): Promise<unknown> {
   return modalCallbacks[modalId].promise;
 }
 
-export const hide = (modal: string | React.FC<any>): Promise<unknown> => {
+export const hide = (modal: string | React.ComponentType<any>): Promise<unknown> => {
   const modalId = getModalId(modal);
   dispatch(hideModal(modalId));
   // Should also delete the callback for modal.resolve #35
@@ -274,7 +274,7 @@ const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
 };
 export function useModal(): NiceModalHandler;
 export function useModal<T extends string>(modal: T, args?: Record<string, unknown>): NiceModalHandler;
-export function useModal<T extends React.FC<any>>(
+export function useModal<T extends React.ComponentType<any>>(
   modal: T,
   args?: NiceModalArgs<T>,
 ): NiceModalHandler<NiceModalArgs<T>>;
@@ -297,7 +297,7 @@ export function useModal(modal?: any, args?: any): any {
   // If use a component directly, register it.
   useEffect(() => {
     if (isUseComponent && !MODAL_REGISTRY[mid]) {
-      register(mid, modal as React.FC, args);
+      register(mid, modal as React.ComponentType, args);
     }
   }, [isUseComponent, mid, modal, args]);
 
@@ -376,7 +376,7 @@ export const create = <P extends Record<string, unknown>>(
 };
 
 // All registered modals will be rendered in modal placeholder
-export const register = <T extends React.FC<any>>(id: string, comp: T, props?: NiceModalArgs<T>): void => {
+export const register = <T extends React.ComponentType<any>>(id: string, comp: T, props?: NiceModalArgs<T>): void => {
   if (!MODAL_REGISTRY[id]) {
     MODAL_REGISTRY[id] = { comp, props };
   } else {
@@ -464,7 +464,7 @@ export const ModalDef: React.FC<Record<string, unknown>> = ({
   component,
 }: {
   id: string;
-  component: React.FC<any>;
+  component: React.ComponentType<any>;
 }) => {
   useEffect(() => {
     register(id, component);
