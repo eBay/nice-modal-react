@@ -325,7 +325,7 @@ export function useModal(modal?: any, args?: any): any {
         delete hideModalCallbacks[mid];
       },
     }),
-    [mid, modalInfo],
+    [mid, modalInfo?.args, modalInfo?.keepMounted, modalInfo?.visible],
   );
 }
 export const create = <P extends Record<string, unknown>>(
