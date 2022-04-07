@@ -212,10 +212,10 @@ type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElement
   ? Partial<Omit<React.ComponentProps<T>, 'id'>>
   : Record<string, unknown>;
 
-export function show<T extends React.FC<any>>(modal: T, args?: NiceModalArgs<T>): Promise<unknown>;
-export function show<T extends string>(modal: T, args?: Record<string, unknown>): Promise<unknown>;
+export function show<T extends any>(modal: React.FC<any>, args?: NiceModalArgs<React.FC<any>>): Promise<T>;
+export function show<T extends any>(modal: string, args?: Record<string, unknown>): Promise<T>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function show(modal: any, args?: any): Promise<unknown> {
+export function show(modal: React.FC<any> | string, args?: NiceModalArgs<React.FC<any>> | Record<string, unknown>) {
   const modalId = getModalId(modal);
   if (typeof modal !== 'string' && !MODAL_REGISTRY[modalId]) {
     register(modalId, modal as React.FC);
@@ -240,7 +240,9 @@ export function show(modal: any, args?: any): Promise<unknown> {
   return modalCallbacks[modalId].promise;
 }
 
-export const hide = (modal: string | React.FC<any>): Promise<unknown> => {
+export function hide<T>(modal: string | React.FC<any>): Promise<T>;
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function hide(modal: string | React.FC<any>) {
   const modalId = getModalId(modal);
   dispatch(hideModal(modalId));
   // Should also delete the callback for modal.resolve #35
@@ -261,7 +263,7 @@ export const hide = (modal: string | React.FC<any>): Promise<unknown> => {
     };
   }
   return hideModalCallbacks[modalId].promise;
-};
+}
 
 export const remove = (modalId: string): void => {
   dispatch(removeModal(modalId));
