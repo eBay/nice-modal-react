@@ -351,7 +351,7 @@ export const create = <P extends Record<string, unknown>>(
       return () => {
         delete ALREADY_MOUNTED[id];
       };
-    }, [id]); //eslint-disable-line
+    }, [id, show, defaultVisible]);
 
     useEffect(() => {
       if (keepMounted) setFlags(id, { keepMounted: true });
