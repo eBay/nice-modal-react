@@ -11,7 +11,7 @@
  * @module NiceModal
  * */
 
-import React, { useEffect, useMemo, useContext, useReducer, ReactNode } from 'react';
+import React, { useEffect, useCallback, useContext, useReducer, ReactNode } from 'react';
 
 export interface NiceModalState {
   id: string;
@@ -305,30 +305,46 @@ export function useModal(modal?: any, args?: any): any {
 
   const modalInfo = modals[mid];
 
-  return useMemo<NiceModalHandler>(
-    () => ({
-      id: mid,
-      args: modalInfo?.args,
-      visible: !!modalInfo?.visible,
-      keepMounted: !!modalInfo?.keepMounted,
-      show: (args?: Record<string, unknown>) => show(mid, args),
-      hide: () => hide(mid),
-      remove: () => remove(mid),
-      resolve: (args?: unknown) => {
-        modalCallbacks[mid]?.resolve(args);
-        delete modalCallbacks[mid];
-      },
-      reject: (args?: unknown) => {
-        modalCallbacks[mid]?.reject(args);
-        delete modalCallbacks[mid];
-      },
-      resolveHide: (args?: unknown) => {
-        hideModalCallbacks[mid]?.resolve(args);
-        delete hideModalCallbacks[mid];
-      },
-    }),
-    [mid, modalInfo?.args, modalInfo?.keepMounted, modalInfo?.visible],
+  const showCallback = useCallback(
+    (args?: Record<string, unknown>) => show(mid, args),
+    [mid]
   );
+  const hideCallback = useCallback(() => hide(mid), [mid]);
+  const removeCallback = useCallback(() => remove(mid), [mid]);
+  const resolveCallback = useCallback(
+    (args?: unknown) => {
+      modalCallbacks[mid]?.resolve(args);
+      delete modalCallbacks[mid];
+    },
+    [mid]
+  );
+  const rejectCallback = useCallback(
+    (args?: unknown) => {
+      modalCallbacks[mid]?.reject(args);
+      delete modalCallbacks[mid];
+    },
+    [mid]
+  );
+  const resolveHide = useCallback(
+    (args?: unknown) => {
+      hideModalCallbacks[mid]?.resolve(args);
+      delete hideModalCallbacks[mid];
+    },
+    [mid]
+  );
+
+  return {
+    id: mid,
+    args: modalInfo?.args,
+    visible: !!modalInfo?.visible,
+    keepMounted: !!modalInfo?.keepMounted,
+    show: showCallback,
+    hide: hideCallback,
+    remove: removeCallback,
+    resolve: resolveCallback,
+    reject: rejectCallback,
+    resolveHide,
+  };
 }
 export const create = <P extends Record<string, unknown>>(
   Comp: React.ComponentType<P>,
@@ -351,7 +367,7 @@ export const create = <P extends Record<string, unknown>>(
       return () => {
         delete ALREADY_MOUNTED[id];
       };
-    }, [id]); //eslint-disable-line
+    }, [id, show, defaultVisible]);
 
     useEffect(() => {
       if (keepMounted) setFlags(id, { keepMounted: true });
