@@ -346,7 +346,7 @@ export function useModal(modal?: any, args?: any): any {
     resolveHide,
   };
 }
-export const create = <P extends Record<string, unknown>>(
+export const create = <P extends {}>(
   Comp: React.ComponentType<P>,
 ): React.FC<P & NiceModalHocProps> => {
   return ({ defaultVisible, keepMounted, id, ...props }) => {
