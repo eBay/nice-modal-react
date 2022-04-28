@@ -1,5 +1,5 @@
 language: node_js
 node_js:
-  - "stable"
+  - 16
 after_success: npm run codecov
 install: yarn
