@@ -305,10 +305,7 @@ export function useModal(modal?: any, args?: any): any {
 
   const modalInfo = modals[mid];
 
-  const showCallback = useCallback(
-    (args?: Record<string, unknown>) => show(mid, args),
-    [mid]
-  );
+  const showCallback = useCallback((args?: Record<string, unknown>) => show(mid, args), [mid]);
   const hideCallback = useCallback(() => hide(mid), [mid]);
   const removeCallback = useCallback(() => remove(mid), [mid]);
   const resolveCallback = useCallback(
@@ -316,21 +313,21 @@ export function useModal(modal?: any, args?: any): any {
       modalCallbacks[mid]?.resolve(args);
       delete modalCallbacks[mid];
     },
-    [mid]
+    [mid],
   );
   const rejectCallback = useCallback(
     (args?: unknown) => {
       modalCallbacks[mid]?.reject(args);
       delete modalCallbacks[mid];
     },
-    [mid]
+    [mid],
   );
   const resolveHide = useCallback(
     (args?: unknown) => {
       hideModalCallbacks[mid]?.resolve(args);
       delete hideModalCallbacks[mid];
     },
-    [mid]
+    [mid],
   );
 
   return {
@@ -346,9 +343,7 @@ export function useModal(modal?: any, args?: any): any {
     resolveHide,
   };
 }
-export const create = <P extends {}>(
-  Comp: React.ComponentType<P>,
-): React.FC<P & NiceModalHocProps> => {
+export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P & NiceModalHocProps> => {
   return ({ defaultVisible, keepMounted, id, ...props }) => {
     const { args, show } = useModal(id);
 
@@ -547,6 +542,7 @@ export const bootstrapDialog = (
 export default {
   Provider,
   ModalDef,
+  NiceModalContext,
   create,
   register,
   show,
