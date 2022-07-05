@@ -539,7 +539,7 @@ export const bootstrapDialog = (
   };
 };
 
-export default {
+const NiceModal = {
   Provider,
   ModalDef,
   NiceModalContext,
@@ -555,3 +555,5 @@ export default {
   muiDialog,
   bootstrapDialog,
 };
+
+export default NiceModal;
