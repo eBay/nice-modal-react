@@ -1218,10 +1218,10 @@
   resolved "https://registry.yarnpkg.com/@ctrl/tinycolor/-/tinycolor-3.4.0.tgz#c3c5ae543c897caa9c2a68630bed355be5f9990f"
   integrity sha512-JZButFdZ1+/xAfpguQHoabIXkcqRRKpMrWKBkpEZZyxfY9C1DpADFB8PEqGSTeFr135SaTRfKqGKx5xSCLI7ZQ==
 
-"@ebay/nice-modal-react@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@ebay/nice-modal-react/-/nice-modal-react-1.0.1.tgz#ac5c19cc1b45377d3576e8d89ea143eece1417af"
-  integrity sha512-v/3+gQp6Qj0JBAcGqzQP3Pkhy5jA7bpcXaOsXwA44jzc+ZgztcgtfPajD3b2IWiobq8aZgDBFjOXWhKHc67C5Q==
+"@ebay/nice-modal-react@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@ebay/nice-modal-react/-/nice-modal-react-1.2.6.tgz#1b656d1e823a668f3f75807c093b2b19728d398c"
+  integrity sha512-0TCRwvRX6Wvii4GMcoJ+Rid/htvS/9FgnhKnVTObPu+/Uzcd+PP+yElp5aUwOr1OgbdH4Ei/UQidcu9Or5KcOg==
 
 "@emotion/hash@^0.8.0":
   version "0.8.0"
