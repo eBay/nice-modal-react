@@ -209,12 +209,11 @@ const getModalId = (modal: string | React.FC<any>): string => {
 
 /** omit id and partial all required props */
 type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
-  ? Omit<React.ComponentProps<T>, 'id'>
+  ? Partial<Omit<React.ComponentProps<T>, 'id'>>
   : Record<string, unknown>;
 
 export function show<T extends any, C extends React.FC>(modal: C, args?: Omit<React.ComponentProps<C>, 'id'>): Promise<T>;
 export function show<T extends any>(modal: string, args?: Record<string, unknown>): Promise<T>;
-export function show<T extends any, P extends any>(modal: string, args: P): Promise<T>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function show(modal: React.FC<any> | string, args?: NiceModalArgs<React.FC<any>> | Record<string, unknown>) {
   const modalId = getModalId(modal);
@@ -276,20 +275,11 @@ const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
   dispatch(setModalFlags(modalId, flags));
 };
 export function useModal(): NiceModalHandler;
-export function useModal(modal: string, args?: Record<string, unknown>): NiceModalHandler;
-export function useModal<
-  T extends React.FC<any>,
-  ComponentProps extends NiceModalArgs<T>,
-  PreparedProps extends Partial<ComponentProps> = {},
-  RemainingProps = Omit<ComponentProps, keyof PreparedProps> & Partial<ComponentProps>
->(
+export function useModal<T extends string>(modal: T, args?: Record<string, unknown>): NiceModalHandler;
+export function useModal<T extends React.FC<any>>(
   modal: T,
-  args?: PreparedProps
-): Omit<NiceModalHandler, 'show'> & {
-  show: { [K in keyof RemainingProps]: RemainingProps[K] extends Exclude<RemainingProps[keyof RemainingProps], undefined> ? K : never }[keyof RemainingProps] extends undefined
-  ? (args?: RemainingProps) => Promise<unknown>
-  : (args: RemainingProps) => Promise<unknown>
-};
+  args?: NiceModalArgs<T>,
+): NiceModalHandler<NiceModalArgs<T>>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useModal(modal?: any, args?: any): any {
   const modals = useContext(NiceModalContext);
@@ -399,7 +389,7 @@ export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P &
 };
 
 // All registered modals will be rendered in modal placeholder
-export const register = <T extends React.FC<any>>(id: string, comp: T, props?: Partial<NiceModalArgs<T>>): void => {
+export const register = <T extends React.FC<any>>(id: string, comp: T, props?: NiceModalArgs<T>): void => {
   if (!MODAL_REGISTRY[id]) {
     MODAL_REGISTRY[id] = { comp, props };
   } else {
