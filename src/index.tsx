@@ -211,8 +211,8 @@ const getModalId = (modal: string | React.FC<any>): string => {
 type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
   ? Partial<Omit<React.ComponentProps<T>, 'id'>>
   : Record<string, unknown>;
-
-export function show<T extends any, C extends React.FC>(modal: C, args?: Omit<React.ComponentProps<C>, 'id'>): Promise<T>;
+export function show<T extends any>(modal: React.FC<any>, args?: NiceModalArgs<React.FC<any>>): Promise<T>;
+// export function show<T extends any, C extends React.FC>(modal: C, args?: Omit<React.ComponentProps<C>, 'id'>): Promise<T>;
 export function show<T extends any>(modal: string, args?: Record<string, unknown>): Promise<T>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function show(modal: React.FC<any> | string, args?: NiceModalArgs<React.FC<any>> | Record<string, unknown>) {
