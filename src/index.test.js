@@ -7,7 +7,9 @@ import NiceModal, {
   register,
   create,
   antdDrawer,
+  antdDrawerV5,
   antdModal,
+  antdModalV5,
   muiDialog,
   bootstrapDialog,
   reducer,
@@ -360,9 +362,20 @@ const AntdModal = ({ visible, onOk, onCancel, afterClose, children }) => {
     </TestModal>
   );
 };
+const AntdModalV5 = ({ open, onOk, onCancel, afterClose, children }) => {
+  return (
+    <TestModal visible={open} onClose={onOk} onCancel={onCancel} onExited={afterClose}>
+      {children}
+    </TestModal>
+  );
+};
 test('test antd modal helper', async () => {
-  await testHelper(AntdModal, antdModal, 'AntdModal');
-  await testHelper(AntdModal, antdModal, 'AntdModal', true);
+  await testHelper(AntdModalV5, antdModalV5, 'AntdModalV5');
+  await testHelper(AntdModalV5, antdModalV5, 'AntdModalV5', true);
+});
+test('test antd modal v5 helper', async () => {
+  await testHelper(AntdModalV5, antdModalV5, 'AntdModalV5');
+  await testHelper(AntdModalV5, antdModalV5, 'AntdModalV5', true);
 });
 
 test('test antd modal onCancel', async () => {
@@ -391,6 +404,16 @@ test('test antd drawer helper', async () => {
     );
   };
   await testHelper(AntdDrawer, antdDrawer, 'AntdDrawerTest');
+});
+test('test antd drawer v5 helper', async () => {
+  const AntdDrawerV5 = ({ open, onClose, afterOpenChange, children }) => {
+    return (
+      <TestModal visible={open} onClose={onClose} onExited={() => afterOpenChange(false)}>
+        {children}
+      </TestModal>
+    );
+  };
+  await testHelper(AntdDrawerV5, antdDrawerV5, 'AntdDrawerV5Test');
 });
 
 test('test mui dialog helper', async () => {
