@@ -502,6 +502,17 @@ export const antdModal = (
     },
   };
 };
+export const antdModalV5 = (
+  modal: NiceModalHandler,
+): { open: boolean; onCancel: () => void; onOk: () => void; afterClose: () => void } => {
+  const {onOk, onCancel, afterClose} = antdModal(modal)
+  return {
+    open: modal.visible,
+    onOk,
+    onCancel,
+    afterClose,
+  };
+};
 export const antdDrawer = (
   modal: NiceModalHandler,
 ): { visible: boolean; onClose: () => void; afterVisibleChange: (visible: boolean) => void } => {
@@ -514,6 +525,16 @@ export const antdDrawer = (
       }
       !v && !modal.keepMounted && modal.remove();
     },
+  };
+};
+export const antdDrawerV5 = (
+  modal: NiceModalHandler,
+): { open: boolean; onClose: () => void; afterOpenChange: (visible: boolean) => void } => {
+  const {onClose, afterVisibleChange: afterOpenChange} = antdDrawer(modal)
+  return {
+    open: modal.visible,
+    onClose,
+    afterOpenChange,
   };
 };
 export const muiDialog = (modal: NiceModalHandler): { open: boolean; onClose: () => void; onExited: () => void } => {
