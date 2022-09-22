@@ -11,6 +11,7 @@ import NiceModal, {
   antdModal,
   antdModalV5,
   muiDialog,
+  muiDialogV5,
   bootstrapDialog,
   reducer,
 } from './index';
@@ -179,12 +180,12 @@ test('useModal by id of declared modal via ModalDef', async () => {
     modal = useModal('mytestmodal2');
     return (
       <Provider>
-        <ModalDef  id="mytestmodal2" component={HocTestModal} />
+        <ModalDef id="mytestmodal2" component={HocTestModal} />
       </Provider>
     );
   };
   render(<App />);
-  await testUseModal(modal, { name: 'bood'});
+  await testUseModal(modal, { name: 'bood' });
 });
 
 test('useModal by component directly', async () => {
@@ -425,6 +426,17 @@ test('test mui dialog helper', async () => {
     );
   };
   await testHelper(MuiDialog, muiDialog, 'MuiDialogTest');
+});
+
+test('test mui v5 dialog helper', async () => {
+  const MuiDialog = ({ open, onClose, TransitionProps: { onExited }, children }) => {
+    return (
+      <TestModal visible={open} onClose={onClose} onExited={onExited}>
+        {children}
+      </TestModal>
+    );
+  };
+  await testHelper(MuiDialog, muiDialogV5, 'MuiDialogTest');
 });
 
 test('test bootstrap dialog helper', async () => {
