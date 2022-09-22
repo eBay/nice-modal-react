@@ -361,7 +361,9 @@ For every modal implementation we always need to these binding manually. So, to 
 import NiceModal, {
   muiDialog,
   antdModal,
+  antdModalV5,
   antdDrawer,
+  antdDrawerV5,
   bootstrapDialog
 } from '@ebay/nice-modal-react';
 
@@ -373,8 +375,14 @@ const modal = useModal();
 // For ant.design
 <Modal {...antdModal(modal)}>
 
+// For ant.design v4.23.0 or later
+<Modal {...antdModalV5(modal)}>
+
 // For antd drawer
 <Drawer {...antdDrawer(modal)}>
+
+// For antd drawer v4.23.0 or later
+<Drawer {...antdDrawerV5(modal)}>
 
 // For bootstrap dialog
 <Dialog {...bootstrapDialog(modal)}>
