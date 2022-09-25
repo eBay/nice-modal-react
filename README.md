@@ -360,6 +360,7 @@ For every modal implementation we always need to these binding manually. So, to 
 ```jsx
 import NiceModal, {
   muiDialog,
+  muiDialogV5,
   antdModal,
   antdModalV5,
   antdDrawer,
@@ -371,6 +372,9 @@ import NiceModal, {
 const modal = useModal();
 // For MUI
 <Dialog {...muiDialog(modal)}>
+
+// For MUI V5
+<Dialog {...muiDialogV5(modal)}>
 
 // For ant.design
 <Modal {...antdModal(modal)}>
