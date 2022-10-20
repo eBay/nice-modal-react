@@ -280,7 +280,7 @@ export function useModal(modal: string, args?: Record<string, unknown>): NiceMod
 export function useModal<
   T extends React.FC<any>,
   ComponentProps extends NiceModalArgs<T>,
-  PreparedProps extends Partial<ComponentProps> = {},
+  PreparedProps extends Partial<ComponentProps>,
   RemainingProps = Omit<ComponentProps, keyof PreparedProps> & Partial<ComponentProps>,
 >(
   modal: T,
