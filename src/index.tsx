@@ -280,17 +280,13 @@ export function useModal(modal: string, args?: Record<string, unknown>): NiceMod
 export function useModal<
   T extends React.FC<any>,
   ComponentProps extends NiceModalArgs<T>,
-  PreparedProps extends Partial<ComponentProps>,
+  PreparedProps extends Partial<ComponentProps> = {} | ComponentProps,
   RemainingProps = Omit<ComponentProps, keyof PreparedProps> & Partial<ComponentProps>,
 >(
   modal: T,
   args?: PreparedProps,
 ): Omit<NiceModalHandler, 'show'> & {
-  show: {
-    [K in keyof RemainingProps]: RemainingProps[K] extends Exclude<RemainingProps[keyof RemainingProps], undefined>
-      ? K
-      : never;
-  }[keyof RemainingProps] extends undefined
+  show: Partial<RemainingProps> extends RemainingProps
     ? (args?: RemainingProps) => Promise<unknown>
     : (args: RemainingProps) => Promise<unknown>;
 };
