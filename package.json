@@ -6,6 +6,9 @@
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "repository": "https://github.com/eBay/nice-modal-react",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "build": "rm -rf lib && yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
