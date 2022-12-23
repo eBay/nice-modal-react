@@ -104,10 +104,10 @@ However, besides using id, NiceModal allows to use the modal component directly 
 
 ```bash
 # with yarn
-yarn add --dev @ebay/nice-modal-react
+yarn add @ebay/nice-modal-react
 
 # or with npm
-npm install @ebay/nice-modal-react --save-dev
+npm install @ebay/nice-modal-react
 ```
 
 ## Create Your Modal Component
