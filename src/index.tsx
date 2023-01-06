@@ -83,7 +83,7 @@ export interface NiceModalHandler<Props = Record<string, unknown>> extends NiceM
 
 // Omit will not work if extends Record<string, unknown>, which is not needed here
 export interface NiceModalHocProps {
-  id: string;
+  modalId: string;
   defaultVisible?: boolean;
   keepMounted?: boolean;
 }
@@ -354,12 +354,12 @@ export function useModal(modal?: any, args?: any): any {
   };
 }
 export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P & NiceModalHocProps> => {
-  return ({ defaultVisible, keepMounted, id, ...props }) => {
-    const { args, show } = useModal(id);
+  return ({ defaultVisible, keepMounted, modalId, ...props }) => {
+    const { args, show } = useModal(modalId);
 
     // If there's modal state, then should mount it.
     const modals = useContext(NiceModalContext);
-    const shouldMount = !!modals[id];
+    const shouldMount = !!modals[modalId];
 
     useEffect(() => {
       // If defaultVisible, show it after mounted.
@@ -367,18 +367,18 @@ export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P &
         show();
       }
 
-      ALREADY_MOUNTED[id] = true;
+      ALREADY_MOUNTED[modalId] = true;
 
       return () => {
-        delete ALREADY_MOUNTED[id];
+        delete ALREADY_MOUNTED[modalId];
       };
-    }, [id, show, defaultVisible]);
+    }, [modalId, show, defaultVisible]);
 
     useEffect(() => {
-      if (keepMounted) setFlags(id, { keepMounted: true });
-    }, [id, keepMounted]);
+      if (keepMounted) setFlags(modalId, { keepMounted: true });
+    }, [modalId, keepMounted]);
 
-    const delayVisible = modals[id]?.delayVisible;
+    const delayVisible = modals[modalId]?.delayVisible;
     // If modal.show is called
     //  1. If modal was mounted, should make it visible directly
     //  2. If modal has not been mounted, should mount it first, then make it visible
@@ -391,7 +391,7 @@ export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P &
 
     if (!shouldMount) return null;
     return (
-      <NiceModalIdContext.Provider value={id}>
+      <NiceModalIdContext.Provider value={modalId}>
         <Comp {...(props as P)} {...args} />
       </NiceModalIdContext.Provider>
     );
