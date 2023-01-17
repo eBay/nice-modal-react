@@ -79,6 +79,16 @@ export interface NiceModalHandler<Props = Record<string, unknown>> extends NiceM
    * Resolve the promise returned by {@link NiceModalHandler.hide | hide} method.
    */
   resolveHide: (args?: unknown) => void;
+
+  /**
+   * Runs {@link NiceModalHandler.resolve} followed by {@link NiceModalHandler.hide}
+   */
+  resolveAndHide: (args?: unknown) => void;
+
+  /**
+   * Runs {@link NiceModalHandler.reject} followed by {@link NiceModalHandler.hide}
+   */
+  rejectAndHide: (args?: unknown) => void;
 }
 
 // Omit will not work if extends Record<string, unknown>, which is not needed here
@@ -339,6 +349,20 @@ export function useModal(modal?: any, args?: any): any {
     },
     [mid],
   );
+  const resolveAndHide = useCallback(
+    (args?: unknown) => {
+      resolveCallback(args);
+      hideCallback();
+    },
+    [resolveCallback, hideCallback],
+  );
+  const rejectAndHide = useCallback(
+    (args?: unknown) => {
+      rejectCallback(args);
+      hideCallback();
+    },
+    [resolveCallback, hideCallback],
+  );
 
   return {
     id: mid,
@@ -351,6 +375,8 @@ export function useModal(modal?: any, args?: any): any {
     resolve: resolveCallback,
     reject: rejectCallback,
     resolveHide,
+    resolveAndHide,
+    rejectAndHide,
   };
 }
 export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P & NiceModalHocProps> => {
