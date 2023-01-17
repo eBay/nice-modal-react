@@ -361,7 +361,7 @@ export function useModal(modal?: any, args?: any): any {
       rejectCallback(args);
       hideCallback();
     },
-    [resolveCallback, hideCallback],
+    [rejectCallback, hideCallback],
   );
 
   return {
