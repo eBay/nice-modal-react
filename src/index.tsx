@@ -282,13 +282,14 @@ export function useModal<
   ComponentProps extends NiceModalArgs<T>,
   PreparedProps extends Partial<ComponentProps> = {} | ComponentProps,
   RemainingProps = Omit<ComponentProps, keyof PreparedProps> & Partial<ComponentProps>,
+  ResolveType = unknown
 >(
   modal: T,
   args?: PreparedProps,
 ): Omit<NiceModalHandler, 'show'> & {
   show: Partial<RemainingProps> extends RemainingProps
-    ? (args?: RemainingProps) => Promise<unknown>
-    : (args: RemainingProps) => Promise<unknown>;
+    ? (args?: RemainingProps) => Promise<ResolveType>
+    : (args: RemainingProps) => Promise<ResolveType>;
 };
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useModal(modal?: any, args?: any): any {
