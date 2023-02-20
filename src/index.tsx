@@ -211,7 +211,7 @@ const getModalId = (modal: string | React.FC<any>): string => {
 type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
   ? Omit<React.ComponentProps<T>, 'id'>
   : Record<string, unknown>;
-export function show<T extends any>(modal: React.FC<any>, args?: NiceModalArgs<React.FC<any>>): Promise<T>;
+export function show<T extends any, C extends any>(modal: React.FC<C>, args?: NiceModalArgs<React.FC<C>>): Promise<T>;
 // export function show<T extends any, C extends React.FC>(modal: C, args?: Omit<React.ComponentProps<C>, 'id'>): Promise<T>;
 export function show<T extends any>(modal: string, args?: Record<string, unknown>): Promise<T>;
 export function show<T extends any, P extends any>(modal: string, args: P): Promise<T>;
