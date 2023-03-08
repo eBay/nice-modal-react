@@ -409,23 +409,6 @@ In the example, the `onOk` property will override the result from `antdModal` he
 ## API Reference
 https://ebay.github.io/nice-modal-react/api/
 
-## FAQ
-### Can I get context in the component tree in a modal?
-Yes. To get the data from context in the component tree you need to use the declarative way. For example:
-```jsx
-export default function AntdSample() {
-  return (
-    <>
-      <Button type="primary" onClick={() => NiceModal.show('my-antd-modal', { name: 'Nate' })}>
-        Show Modal
-      </Button>
-      <MyAntdModal id="my-antd-modal" {...otherProps} />
-    </>
-  );
-}
-```
-See more [here](https://github.com/eBay/nice-modal-react/issues/104).
-
 ## Testing
 
 You can test your nice modals with tools like `@testing-library/react`.
@@ -474,6 +457,22 @@ yarn start
 
 Then you can access http://localhost:3000 to see the examples.
 
+## FAQ
+### Can I get context in the component tree in a modal?
+Yes. To get the data from context in the component tree you need to use the declarative way. For example:
+```jsx
+export default function AntdSample() {
+  return (
+    <>
+      <Button type="primary" onClick={() => NiceModal.show('my-antd-modal', { name: 'Nate' })}>
+        Show Modal
+      </Button>
+      <MyAntdModal id="my-antd-modal" {...otherProps} />
+    </>
+  );
+}
+```
+See more [here](https://github.com/eBay/nice-modal-react/issues/104).
 
 # License
 MIT
