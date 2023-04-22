@@ -586,6 +586,15 @@ export const bootstrapDialog = (
   };
 };
 
+export const radixDialog = (
+  modal: NiceModalHandler
+): { open: boolean; onOpenChange: (open: boolean) => void } => {
+  return {
+    open: modal.visible,
+    onOpenChange: (open) => (open ? modal.show() : modal.hide()),
+  };
+};
+    
 const NiceModal = {
   Provider,
   ModalDef,
@@ -599,8 +608,11 @@ const NiceModal = {
   reducer,
   antdModal,
   antdDrawer,
+  antdDrawerV5,
   muiDialog,
+  muiDialogV5,
   bootstrapDialog,
+  radixDialog,
 };
 
 export default NiceModal;
