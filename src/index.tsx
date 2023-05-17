@@ -445,9 +445,14 @@ const NiceModalPlaceholder: React.FC = () => {
 };
 
 const InnerContextProvider: React.FC = ({ children }) => {
-  const arr = useReducer(reducer, initialState);
-  const modals = arr[0];
-  dispatch = arr[1];
+  const [modals, givenDispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    const currentDispatch = dispatch;
+    dispatch = givenDispatch;
+    return () => {
+      dispatch = currentDispatch;
+    };
+  }, [givenDispatch]);
   return (
     <NiceModalContext.Provider value={modals}>
       {children}
@@ -465,10 +470,17 @@ export const Provider: React.FC<Record<string, unknown>> = ({
   dispatch?: React.Dispatch<NiceModalAction>;
   modals?: NiceModalStore;
 }) => {
+  useEffect(() => {
+    if (!givenDispatch) return;
+    const currentDispatch = dispatch;
+    dispatch = givenDispatch;
+    return () => {
+      dispatch = currentDispatch;
+    };
+  }, [givenDispatch]);
   if (!givenDispatch || !givenModals) {
     return <InnerContextProvider>{children}</InnerContextProvider>;
   }
-  dispatch = givenDispatch;
   return (
     <NiceModalContext.Provider value={givenModals}>
       {children}
