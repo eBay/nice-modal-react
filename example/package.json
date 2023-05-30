@@ -104,7 +104,7 @@
     "tmpl": "1.0.5"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider node scripts/start.js",
     "build": "rm -rf ../docs && node scripts/build.js && mv ./build ../docs",
     "test": "node scripts/test.js"
   },

@@ -89,7 +89,7 @@ export interface NiceModalHocProps {
 }
 const symModalId = Symbol('NiceModalId');
 const initialState: NiceModalStore = {};
-const NiceModalContext = React.createContext<NiceModalStore>(initialState);
+export const NiceModalContext = React.createContext<NiceModalStore>(initialState);
 const NiceModalIdContext = React.createContext<string | null>(null);
 const MODAL_REGISTRY: {
   [id: string]: {
