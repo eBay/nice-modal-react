@@ -9,6 +9,7 @@ import MyMuiDialog from './MyMuiDialog';
 import MyAntdModal from './MyAntdModal';
 import MyBootstrapDialog from './MyBootstrapDialog';
 import ReduxIntegration from './ReduxIntegration';
+import PropsBinding from './PropsBinding';
 
 const examples = {
   real: {
@@ -47,9 +48,16 @@ const examples = {
     component: Declarative,
     code: ['Declarative.jsx'],
   },
+  propsBinding: {
+    name: 'Props Binding',
+    description: 'Modal binds args as props when useModal(id, args).',
+    component: PropsBinding,
+    code: ['PropsBinding.jsx'],
+  },
   redux: {
     name: 'Redux Integration',
-    description: 'Use Redux to manage modals state so that you can use Redux dev tools to debug nice modals.',
+    description:
+      'Use Redux to manage modals state so that you can use Redux dev tools to debug nice modals.',
     component: ReduxIntegration,
     code: ['ReduxIntegration.jsx'],
   },
@@ -95,7 +103,10 @@ function App() {
         </div>
         <div className="social">
           <a href="https://github.com/ebay/nice-modal-react">
-            <img src="https://img.shields.io/github/stars/eBay/nice-modal-react?style=social" alt="Github Repo" />
+            <img
+              src="https://img.shields.io/github/stars/eBay/nice-modal-react?style=social"
+              alt="Github Repo"
+            />
           </a>
           <br />
           <a href="https://ebay.github.io/nice-modal-react/api">
@@ -103,7 +114,11 @@ function App() {
           </a>
           <br />
           <a href="https://codesandbox.io/s/github/ebay/nice-modal-react/tree/main/example">
-            <img width="150px" src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="codesandbox" />
+            <img
+              width="150px"
+              src="https://codesandbox.io/static/img/play-codesandbox.svg"
+              alt="codesandbox"
+            />
           </a>
         </div>
       </div>

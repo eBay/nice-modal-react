@@ -9,6 +9,7 @@ import codeMyMuiDialog from '!!raw-loader!./MyMuiDialog.tsx';
 import codeMyBootstrapDialog from '!!raw-loader!./MyBootstrapDialog.tsx';
 import codeReduxIntegration from '!!raw-loader!./ReduxIntegration.jsx';
 import codeDeclarative from '!!raw-loader!./Declarative.jsx';
+import codePropsBinding from '!!raw-loader!./PropsBinding.jsx';
 
 const codeMap = {
   'MyAntdModal.tsx': codeAntd,
@@ -19,6 +20,7 @@ const codeMap = {
   'MyBootstrapDialog.tsx': codeMyBootstrapDialog,
   'ReduxIntegration.jsx': codeReduxIntegration,
   'Declarative.jsx': codeDeclarative,
+  'PropsBinding.jsx': codePropsBinding,
 };
 export default function CodeViewer({ filename }) {
   useEffect(() => {
