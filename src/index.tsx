@@ -106,7 +106,10 @@ let dispatch: React.Dispatch<NiceModalAction> = () => {
 const getUid = () => `_nice_modal_${uidSeed++}`;
 
 // Modal reducer used in useReducer hook.
-export const reducer = (state: NiceModalStore = initialState, action: NiceModalAction): NiceModalStore => {
+export const reducer = (
+  state: NiceModalStore = initialState,
+  action: NiceModalAction,
+): NiceModalStore => {
   switch (action.type) {
     case 'nice-modal/show': {
       const { modalId, args } = action.payload;
@@ -211,12 +214,18 @@ const getModalId = (modal: string | React.FC<any>): string => {
 type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElementConstructor<any>
   ? Omit<React.ComponentProps<T>, 'id'>
   : Record<string, unknown>;
-export function show<T extends any, C extends any>(modal: React.FC<C>, args?: NiceModalArgs<React.FC<C>>): Promise<T>;
+export function show<T extends any, C extends any>(
+  modal: React.FC<C>,
+  args?: NiceModalArgs<React.FC<C>>,
+): Promise<T>;
 // export function show<T extends any, C extends React.FC>(modal: C, args?: Omit<React.ComponentProps<C>, 'id'>): Promise<T>;
 export function show<T extends any>(modal: string, args?: Record<string, unknown>): Promise<T>;
 export function show<T extends any, P extends any>(modal: string, args: P): Promise<T>;
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function show(modal: React.FC<any> | string, args?: NiceModalArgs<React.FC<any>> | Record<string, unknown>) {
+export function show(
+  modal: React.FC<any> | string,
+  args?: NiceModalArgs<React.FC<any>> | Record<string, unknown>,
+) {
   const modalId = getModalId(modal);
   if (typeof modal !== 'string' && !MODAL_REGISTRY[modalId]) {
     register(modalId, modal as React.FC);
@@ -282,7 +291,7 @@ export function useModal<
   ComponentProps extends NiceModalArgs<T>,
   PreparedProps extends Partial<ComponentProps> = {} | ComponentProps,
   RemainingProps = Omit<ComponentProps, keyof PreparedProps> & Partial<ComponentProps>,
-  ResolveType = unknown
+  ResolveType = unknown,
 >(
   modal: T,
   args?: PreparedProps,
@@ -354,7 +363,9 @@ export function useModal(modal?: any, args?: any): any {
     resolveHide,
   };
 }
-export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P & NiceModalHocProps> => {
+export const create = <P extends {}>(
+  Comp: React.ComponentType<P>,
+): React.FC<P & NiceModalHocProps> => {
   return ({ defaultVisible, keepMounted, id, ...props }) => {
     const { args, show } = useModal(id);
 
@@ -400,7 +411,11 @@ export const create = <P extends {}>(Comp: React.ComponentType<P>): React.FC<P &
 };
 
 // All registered modals will be rendered in modal placeholder
-export const register = <T extends React.FC<any>>(id: string, comp: T, props?: Partial<NiceModalArgs<T>>): void => {
+export const register = <T extends React.FC<any>>(
+  id: string,
+  comp: T,
+  props?: Partial<NiceModalArgs<T>>,
+): void => {
   if (!MODAL_REGISTRY[id]) {
     MODAL_REGISTRY[id] = { comp, props };
   } else {
@@ -423,7 +438,9 @@ const NiceModalPlaceholder: React.FC = () => {
   const visibleModalIds = Object.keys(modals).filter((id) => !!modals[id]);
   visibleModalIds.forEach((id) => {
     if (!MODAL_REGISTRY[id] && !ALREADY_MOUNTED[id]) {
-      console.warn(`No modal found for id: ${id}. Please check the id or if it is registered or declared via JSX.`);
+      console.warn(
+        `No modal found for id: ${id}. Please check the id or if it is registered or declared via JSX.`,
+      );
       return;
     }
   });
@@ -548,7 +565,9 @@ export const antdDrawerV5 = (
     afterOpenChange,
   };
 };
-export const muiDialog = (modal: NiceModalHandler): { open: boolean; onClose: () => void; onExited: () => void } => {
+export const muiDialog = (
+  modal: NiceModalHandler,
+): { open: boolean; onClose: () => void; onExited: () => void } => {
   return {
     open: modal.visible,
     onClose: () => modal.hide(),
