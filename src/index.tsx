@@ -11,7 +11,7 @@
  * @module NiceModal
  * */
 
-import React, { useEffect, useCallback, useContext, useReducer, ReactNode } from 'react';
+import React, { useEffect, useCallback, useContext, useReducer, useMemo, ReactNode } from 'react';
 
 export interface NiceModalState {
   id: string;
@@ -516,6 +516,41 @@ export const ModalDef: React.FC<Record<string, unknown>> = ({
   return null;
 };
 
+/**
+ * A place holder allows to bind props to a modal.
+ * It assigns show/hide methods to handler object to show/hide the modal.
+ *
+ * Comparing to use the <MyNiceModal id=../> directly, this approach allows use registered modal id to find the modal component.
+ * Also it avoids to create unique id for MyNiceModal.
+ *
+ * @param modal - The modal id registered or a modal component.
+ * @param handler - The handler object to control the modal.
+ * @returns
+ */
+export const ModalHolder: React.FC<Record<string, unknown>> = ({
+  modal,
+  handler = {},
+  ...restProps
+}: {
+  modal: string | React.FC<any>;
+  handler: any;
+  [key: string]: any;
+}) => {
+  const mid = useMemo(() => getUid(), []);
+  const ModalComp = typeof modal === 'string' ? MODAL_REGISTRY[modal]?.comp : modal;
+
+  if (!handler) {
+    throw new Error('No handler found in NiceModal.ModalHolder.');
+  }
+  if (!ModalComp) {
+    throw new Error(`No modal found for id: ${modal} in NiceModal.ModalHolder.`);
+  }
+  handler.show = useCallback((args: any) => show(mid, args), [mid]);
+  handler.hide = useCallback(() => hide(mid), [mid]);
+
+  return <ModalComp id={mid} {...restProps} />;
+};
+
 export const antdModal = (
   modal: NiceModalHandler,
 ): { visible: boolean; onCancel: () => void; onOk: () => void; afterClose: () => void } => {
@@ -608,6 +643,7 @@ export const bootstrapDialog = (
 const NiceModal = {
   Provider,
   ModalDef,
+  ModalHolder,
   NiceModalContext,
   create,
   register,

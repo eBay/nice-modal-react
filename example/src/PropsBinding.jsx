@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Modal, Button } from 'antd';
-import NiceModal, { useModal } from '@ebay/nice-modal-react';
+import NiceModal, { useModal, ModalHolder } from '@ebay/nice-modal-react';
 
 export const MyAntdModal = NiceModal.create(({ time }) => {
   const modal = useModal();
@@ -24,12 +24,15 @@ export default function Example() {
     return () => clearInterval(p);
   }, []);
 
+  // modalHandler will be assign show/hide method.
+  const modalHandler = {};
+
   return (
     <>
-      <Button type="primary" onClick={() => NiceModal.show('props-binding-modal')}>
+      <Button type="primary" onClick={() => modalHandler.show()}>
         Show Modal
       </Button>
-      <MyAntdModal id="props-binding-modal" time={time} />
+      <ModalHolder modal={MyAntdModal} handler={modalHandler} time={time} />
     </>
   );
 }
