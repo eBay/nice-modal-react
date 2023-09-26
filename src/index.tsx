@@ -159,6 +159,11 @@ export const reducer = (
   }
 };
 
+// Get modal component by modal id
+function getModal(modalId: string) {
+  return MODAL_REGISTRY[modalId]?.comp;
+}
+
 // action creator to show a modal
 function showModal(modalId: string, args?: Record<string, unknown>): NiceModalAction {
   return {
@@ -647,6 +652,7 @@ const NiceModal = {
   NiceModalContext,
   create,
   register,
+  getModal,
   show,
   hide,
   remove,
