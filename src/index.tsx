@@ -280,7 +280,8 @@ export function hide(modal: string | React.FC<any>) {
   return hideModalCallbacks[modalId].promise;
 }
 
-export const remove = (modalId: string): void => {
+export const remove = (modal: string | React.FC<any>): void => {
+  const modalId = getModalId(modal);
   dispatch(removeModal(modalId));
   delete modalCallbacks[modalId];
   delete hideModalCallbacks[modalId];
