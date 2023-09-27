@@ -160,7 +160,7 @@ export const reducer = (
 };
 
 // Get modal component by modal id
-function getModal(modalId: string) {
+function getModal(modalId: string): React.FC<any> | undefined {
   return MODAL_REGISTRY[modalId]?.comp;
 }
 
@@ -223,6 +223,7 @@ export function show<T extends any, C extends any>(
   modal: React.FC<C>,
   args?: NiceModalArgs<React.FC<C>>,
 ): Promise<T>;
+
 // export function show<T extends any, C extends React.FC>(modal: C, args?: Omit<React.ComponentProps<C>, 'id'>): Promise<T>;
 export function show<T extends any>(modal: string, args?: Record<string, unknown>): Promise<T>;
 export function show<T extends any, P extends any>(modal: string, args: P): Promise<T>;
@@ -383,7 +384,7 @@ export function useModal(modal?: any, args?: any): any {
     ],
   );
 }
-export const create = <P extends {}>(
+export const create = <P extends Record<string, unknown>>(
   Comp: React.ComponentType<P>,
 ): React.FC<P & NiceModalHocProps> => {
   return ({ defaultVisible, keepMounted, id, ...props }) => {
