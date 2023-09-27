@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { render, screen, fireEvent, waitForElementToBeRemoved, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitForElementToBeRemoved, act, waitFor } from '@testing-library/react';
 import NiceModal, {
   useModal,
   Provider,
@@ -146,6 +146,46 @@ const testUseModal = async (modal, props = {}) => {
 
   await waitForElementToBeRemoved(screen.queryByText('HocTestModal'));
   expect(rejected && rejected.message).toBe('sample error');
+
+  /**
+   * Resolve and hide
+   */
+  let unresolvedValue;
+
+  act(() => {
+    unresolvedValue = modal.show();
+  });
+
+  modalTextElement = screen.queryByText("HocTestModal");
+  expect(modalTextElement).toBeInTheDocument();
+
+  act(() => {
+    modal.resolveAndHide("example-value");
+  });
+
+  await waitForElementToBeRemoved(screen.queryByText("HocTestModal"));
+  await waitFor(() => expect(unresolvedValue).resolves.toEqual('example-value'))
+
+  /**
+   * Reject and hide
+   */
+  let caughtValue;
+
+  act(() => {
+    unresolvedValue = modal.show().catch((value) => {
+      caughtValue = value
+    });
+  });
+
+  modalTextElement = screen.queryByText("HocTestModal");
+  expect(modalTextElement).toBeInTheDocument();
+
+  act(() => {
+    modal.rejectAndHide("example-reject");
+  });
+
+  await waitForElementToBeRemoved(screen.queryByText("HocTestModal"));
+  await waitFor(() => expect(caughtValue).toEqual('example-reject'))
 };
 
 test('useModal by id of registered modal', async () => {
