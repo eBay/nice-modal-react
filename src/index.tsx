@@ -356,18 +356,32 @@ export function useModal(modal?: any, args?: any): any {
     [mid],
   );
 
-  return {
-    id: mid,
-    args: modalInfo?.args,
-    visible: !!modalInfo?.visible,
-    keepMounted: !!modalInfo?.keepMounted,
-    show: showCallback,
-    hide: hideCallback,
-    remove: removeCallback,
-    resolve: resolveCallback,
-    reject: rejectCallback,
-    resolveHide,
-  };
+  return useMemo(
+    () => ({
+      id: mid,
+      args: modalInfo?.args,
+      visible: !!modalInfo?.visible,
+      keepMounted: !!modalInfo?.keepMounted,
+      show: showCallback,
+      hide: hideCallback,
+      remove: removeCallback,
+      resolve: resolveCallback,
+      reject: rejectCallback,
+      resolveHide,
+    }),
+    [
+      mid,
+      modalInfo?.args,
+      modalInfo?.visible,
+      modalInfo?.keepMounted,
+      showCallback,
+      hideCallback,
+      removeCallback,
+      resolveCallback,
+      rejectCallback,
+      resolveHide,
+    ],
+  );
 }
 export const create = <P extends {}>(
   Comp: React.ComponentType<P>,
