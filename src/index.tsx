@@ -221,7 +221,7 @@ type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElement
   : Record<string, unknown>;
 export function show<T extends any, C extends any>(
   modal: React.FC<C>,
-  args?: NiceModalArgs<React.FC<C>>,
+  args?: Partial<NiceModalArgs<React.FC<C>>>,
 ): Promise<T>;
 
 // export function show<T extends any, C extends React.FC>(modal: C, args?: Omit<React.ComponentProps<C>, 'id'>): Promise<T>;
@@ -293,20 +293,13 @@ const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
 };
 export function useModal(): NiceModalHandler;
 export function useModal(modal: string, args?: Record<string, unknown>): NiceModalHandler;
-export function useModal<
-  T extends React.FC<any>,
-  ComponentProps extends NiceModalArgs<T>,
-  PreparedProps extends Partial<ComponentProps> = {} | ComponentProps,
-  RemainingProps = Omit<ComponentProps, keyof PreparedProps> & Partial<ComponentProps>,
-  ResolveType = unknown,
->(
-  modal: T,
-  args?: PreparedProps,
+export function useModal<C extends any, P extends Partial<NiceModalArgs<React.FC<C>>>>(
+  modal: React.FC<C>,
+  args?: P,
 ): Omit<NiceModalHandler, 'show'> & {
-  show: Partial<RemainingProps> extends RemainingProps
-    ? (args?: RemainingProps) => Promise<ResolveType>
-    : (args: RemainingProps) => Promise<ResolveType>;
+  show: (args?: P) => Promise<unknown>;
 };
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useModal(modal?: any, args?: any): any {
   const modals = useContext(NiceModalContext);
