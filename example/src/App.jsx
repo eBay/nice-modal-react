@@ -50,7 +50,7 @@ const examples = {
   },
   propsBinding: {
     name: 'Props Binding',
-    description: 'To bind props to modal, need to declare the modal using jsx.',
+    description: 'To bind props to modal, need to declare the modal using <ModalHolder />.',
     component: PropsBinding,
     code: ['PropsBinding.jsx'],
   },
