@@ -50,7 +50,8 @@ const examples = {
   },
   propsBinding: {
     name: 'Props Binding',
-    description: 'To bind props to modal, need to declare the modal using <ModalHolder />.',
+    description:
+      "To bind props to modal, you can also use <ModalHolder /> besides declarative way. This approach doesn't need a uniq modal id.",
     component: PropsBinding,
     code: ['PropsBinding.jsx'],
   },
