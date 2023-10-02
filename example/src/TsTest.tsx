@@ -2,7 +2,7 @@
 import React from 'react';
 import NiceModal, { useModal, antdModalV5 } from '@ebay/nice-modal-react';
 
-const MyModal1 = NiceModal.create(({ p1, p2 }: { p1: string; p2: number }) => {
+const MyModal1 = NiceModal.create(({ p1, p2, id }: { p1: string; p2: number; id: string }) => {
   const modal = useModal();
   return (
     <div {...antdModalV5(modal)}>
@@ -31,18 +31,28 @@ export default function TsTest() {
   modal1.show({ p2: 1, p1: 1 }); // expected: p1 should be string
   modal1.show();
 
-  NiceModal.show(MyModal1); // valid?
-  NiceModal.show(MyModal1, { p1: 'foo', p2: 123 }); // valid
+  NiceModal.show(MyModal1);
+  NiceModal.show(MyModal1, { p1: 'foo', p2: 123 });
   NiceModal.show(MyModal1, { p1: 'foo', p2: '123' }); // expected ts error: p2 should be number
   NiceModal.show(MyModal1, { p1: 'foo' });
   NiceModal.show(MyModal1, { p2: 123 });
+  NiceModal.show(MyModal1, { p2: '123' }); // expected ts error: p2 should be number
+
+  NiceModal.show('modal-1', { p1: 'foo', p2: 123 });
 
   const modal1_1 = useModal('modal-1', { p3: 'foo', p2: 123 });
   modal1_1.show();
 
   const modal2 = useModal(MyModal2);
   modal2.show();
-  modal2.show({ p1: 'foo', p2: 123 }); // expected ts error
+  modal2.show({ p1: 'foo', p2: 123 });
+
+  const modal3 = useModal(MyModal1, { p1: 'abc' });
+  modal3.show({ p1: 1 }); // expected ts error: p1 should be a string
+  const modal4 = useModal(MyModal1, { p1: 123 }); // expected ts error: p1 should be a string
+
+  // If already type error, can't detect below type error
+  modal4.show({ p1: 'abc', p2: 'a' });
 
   return <>hello ts</>;
 }
