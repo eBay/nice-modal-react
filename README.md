@@ -117,7 +117,7 @@ With NiceModal you can create a separate modal component easily. It's just the s
 import { Modal } from 'antd';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 
-export default NiceModal.create(({ name }) => {
+export default NiceModal.create(({ name }: { name: string }) => {
   // Use a hook to manage the modal state
   const modal = useModal();
   return (
