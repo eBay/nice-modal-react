@@ -292,7 +292,7 @@ const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
   dispatch(setModalFlags(modalId, flags));
 };
 export function useModal<R = unknown>(): NiceModalHandler<Record<string, unknown>, R>;
-export function useModal<R = unknown>(modal: string, args?: Record<string, unknown>): NiceModalHandler<Record<string, unknown>, R>;
+export function useModal<P = Record<string, unknown>, R = unknown>(modal: string, args?: Record<string, unknown>): NiceModalHandler<P, R>;
 export function useModal<P extends any, A extends Partial<NiceModalArgs<React.FC<P>>>, R extends unknown>(
   modal: React.FC<P>,
   args?: A,
