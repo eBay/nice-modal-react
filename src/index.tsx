@@ -44,7 +44,7 @@ interface NiceModalCallbacks {
 /**
  * The handler to manage a modal returned by {@link useModal | useModal} hook.
  */
-export interface NiceModalHandler<Props = Record<string, unknown>> extends NiceModalState {
+export interface NiceModalHandler<Props = Record<string, unknown>, ResolvedValue = unknown> extends NiceModalState {
   /**
    * Whether a modal is visible, it's controlled by {@link NiceModalHandler.show | show}/{@link NiceModalHandler.hide | hide} method.
    */
@@ -57,7 +57,7 @@ export interface NiceModalHandler<Props = Record<string, unknown>> extends NiceM
    * Show the modal, it will change {@link NiceModalHandler.visible | visible} state to true.
    * @param args - an object passed to modal component as props.
    */
-  show: (args?: Props) => Promise<unknown>;
+  show: (args?: Props) => Promise<ResolvedValue | void>;
   /**
    * Hide the modal, it will change {@link NiceModalHandler.visible | visible} state to false.
    */
@@ -65,7 +65,7 @@ export interface NiceModalHandler<Props = Record<string, unknown>> extends NiceM
   /**
    * Resolve the promise returned by {@link NiceModalHandler.show | show} method.
    */
-  resolve: (args?: unknown) => void;
+  resolve: (args?: ResolvedValue) => void;
   /**
    * Reject the promise returned by {@link NiceModalHandler.show | show} method.
    */
@@ -291,13 +291,13 @@ export const remove = (modal: string | React.FC<any>): void => {
 const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
   dispatch(setModalFlags(modalId, flags));
 };
-export function useModal(): NiceModalHandler;
-export function useModal(modal: string, args?: Record<string, unknown>): NiceModalHandler;
-export function useModal<C extends any, P extends Partial<NiceModalArgs<React.FC<C>>>>(
-  modal: React.FC<C>,
-  args?: P,
-): Omit<NiceModalHandler, 'show'> & {
-  show: (args?: P) => Promise<unknown>;
+export function useModal<R = unknown>(): NiceModalHandler<Record<string, unknown>, R>;
+export function useModal<R = unknown>(modal: string, args?: Record<string, unknown>): NiceModalHandler<Record<string, unknown>, R>;
+export function useModal<P extends any, A extends Partial<NiceModalArgs<React.FC<P>>>, R extends unknown>(
+  modal: React.FC<P>,
+  args?: A,
+): Omit<NiceModalHandler<A, R>, 'show'> & {
+  show: (args?: A) => Promise<R>;
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
