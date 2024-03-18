@@ -3,6 +3,7 @@
 This is a small, zero dependency utility to manage modals in a natural way for React. It uses context to persist state of modals globally so that you can show/hide a modal easily either by the modal component or id.
 
 > You can also see the introduction at [eBay tech blog](https://medium.com/ebaytech/rethink-modals-management-in-react-cf3b6804223d).
+> 
 > ***Also check out our another nice utility! [nice-form-react](https://github.com/eBay/nice-form-react)! 😜***
 
 [![NPM](https://img.shields.io/npm/v/@ebay/nice-modal-react.svg)](https://www.npmjs.com/package/@ebay/nice-modal-react)
