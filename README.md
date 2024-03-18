@@ -11,6 +11,8 @@ This is a small, zero dependency utility to manage modals in a natural way for R
 [![Demo](https://img.shields.io/badge/demo-link-orange.svg)](https://ebay.github.io/nice-modal-react/)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/eBay/nice-modal-react/blob/main/LICENSE.md)
 
+***Check out our another nice utility! [nice-form-react](https://github.com/eBay/nice-form-react)! 😜***
+
 For example, you can use below code to show a modal anywhere:
 
 ```jsx
