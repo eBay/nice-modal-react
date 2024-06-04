@@ -11,7 +11,7 @@
  * @module NiceModal
  * */
 
-import { 
+import React, { 
   useEffect, 
   useCallback, 
   useContext, 
