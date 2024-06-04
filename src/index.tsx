@@ -102,11 +102,11 @@ export interface NiceModalHocProps {
 }
 const symModalId = Symbol('NiceModalId');
 const initialState: NiceModalStore = {};
-const DEFAULT_ACTION = () => {
+const DEFAULT_DISPATCH = () => {
   throw new Error('No dispatch method detected, did you embed your app with NiceModal.Provider?');
 };
 export const NiceModalContext = createContext<NiceModalStore>(initialState);
-export const DispatchContext = createContext<Dispatch<NiceModalAction>>(DEFAULT_ACTION);
+export const DispatchContext = createContext<Dispatch<NiceModalAction>>(DEFAULT_DISPATCH);
 const NiceModalIdContext = createContext<string | null>(null);
 const MODAL_REGISTRY: {
   [id: string]: {
@@ -121,7 +121,7 @@ let uidSeed = 0;
  * @deprecated We will deprecate this API because it encounters reference errors in nested provider scenarios.
  * @see useModal()
  */
-let deprecated_dispatch: Dispatch<NiceModalAction> = DEFAULT_ACTION
+let deprecated_dispatch: Dispatch<NiceModalAction> = DEFAULT_DISPATCH;
 
 // Modal reducer used in useReducer hook.
 export const reducer = (
