@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Modal, Button } from 'antd';
-import NiceModal, { useModal, ModalHolder } from '@ebay/nice-modal-react';
+import NiceModal, {
+	useModal, ModalHolder,
+	// TS type friendly
+	createModalHandler
+} from '@ebay/nice-modal-react';
 
 export const MyAntdModal = NiceModal.create(({ time }) => {
   const modal = useModal();
@@ -26,13 +30,15 @@ export default function Example() {
 
   // modalHandler will be assign show/hide method.
   const modalHandler = {};
+	// TS type friendly
+	// const modalHandler = createModalHandler<typeof MyAntdModal>()
 
   return (
     <>
-      <Button type="primary" onClick={() => modalHandler.show()}>
+      <Button type="primary" onClick={() => modalHandler.show({ time })}>
         Show Modal
       </Button>
-      <ModalHolder modal={MyAntdModal} handler={modalHandler} time={time} />
+      <ModalHolder modal={MyAntdModal} handler={modalHandler} />
     </>
   );
 }
