@@ -565,6 +565,13 @@ export const ModalHolder: React.FC<Record<string, unknown>> = ({
   return <ModalComp id={mid} {...restProps} />;
 };
 
+export function createModalHandler<T extends React.ComponentType<any>>(): {
+  show: (args?: Omit<React.ComponentProps<T>, keyof NiceModalHocProps>) => Promise<unknown>;
+  hide: () => void;
+} {
+  return Object.create(null);
+}
+
 export const antdModal = (
   modal: NiceModalHandler,
 ): { visible: boolean; onCancel: () => void; onOk: () => void; afterClose: () => void } => {
