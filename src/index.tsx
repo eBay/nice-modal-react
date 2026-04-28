@@ -219,10 +219,11 @@ type NiceModalArgs<T> = T extends keyof JSX.IntrinsicElements | React.JSXElement
   ? React.ComponentProps<T>
   : Record<string, unknown>;
 
-export function show<T extends any, C extends any, P extends Partial<NiceModalArgs<React.FC<C>>>>(
-  modal: React.FC<C>,
-  args?: P,
-): Promise<T>;
+export function show<
+  T extends any,
+  C extends any = any,
+  P extends Partial<NiceModalArgs<React.FC<C>>> = Partial<NiceModalArgs<React.FC<C>>>,
+>(modal: React.FC<C>, args?: P): Promise<T>;
 
 export function show<T extends any>(modal: string, args?: Record<string, unknown>): Promise<T>;
 export function show<T extends any, P extends any>(modal: string, args: P): Promise<T>;
