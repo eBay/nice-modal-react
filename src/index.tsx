@@ -11,7 +11,7 @@
  * @module NiceModal
  * */
 
-import React, { useEffect, useCallback, useContext, useReducer, useMemo, ReactNode } from 'react';
+import React, { useEffect, useCallback, useContext, useReducer, useMemo, ReactNode, useRef } from 'react';
 
 export interface NiceModalState {
   id: string;
@@ -478,7 +478,15 @@ const NiceModalPlaceholder: React.FC = () => {
 const InnerContextProvider: React.FC = ({ children }) => {
   const arr = useReducer(reducer, initialState);
   const modals = arr[0];
-  dispatch = arr[1];
+  // why not write `fnRef.current = fn`? https://github.com/alibaba/hooks/issues/728
+  const fnRef = useRef<any>();
+  fnRef.current = useMemo<any>(() => {
+    return function innerDispatch(action: any) {
+      (arr[1] as React.Dispatch<any>)(action);
+    };
+  }, [arr]);
+
+  dispatch = fnRef.current;
   return (
     <NiceModalContext.Provider value={modals}>
       {children}
