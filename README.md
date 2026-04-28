@@ -422,7 +422,7 @@ import { render, act, screen } from '@testing-library/react';
 import { MyNiceModal } from '../MyNiceModal';
 
 test('My nice modal works!', () => {
-  render(<NiceModal.Provider />
+  render(<NiceModal.Provider />);
   
   act(() => {
     NiceModal.show(MyNiceModal);
