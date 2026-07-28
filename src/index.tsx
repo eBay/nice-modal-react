@@ -97,7 +97,13 @@ const MODAL_REGISTRY: {
     props?: Record<string, unknown>;
   };
 } = {};
-const ALREADY_MOUNTED = {};
+
+const ALREADY_MOUNTED: Record<string, boolean> = {};
+declare module 'react' {
+  interface FunctionComponent {
+    [symModalId]?: string;
+  }
+}
 
 let uidSeed = 0;
 let dispatch: React.Dispatch<NiceModalAction> = () => {
@@ -377,6 +383,7 @@ export function useModal(modal?: any, args?: any): any {
     ],
   );
 }
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const create = <P extends {}>(
   Comp: React.ComponentType<P>,
 ): React.FC<P & NiceModalHocProps> => {
