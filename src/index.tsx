@@ -288,6 +288,16 @@ export const remove = (modal: string | React.FC<any>): void => {
   delete hideModalCallbacks[modalId];
 };
 
+export const resolve = (modal: string | React.FC<any>, args: unknown): void => {
+  modalCallbacks[modal]?.resolve(args);
+  delete modalCallbacks[modal];
+};
+
+export const reject = (modal: string | React.FC<any>, args: unknown): void => {
+  modalCallbacks[modal]?.reject(args);
+  delete modalCallbacks[modal];
+};
+
 const setFlags = (modalId: string, flags: Record<string, unknown>): void => {
   dispatch(setModalFlags(modalId, flags));
 };
@@ -330,15 +340,13 @@ export function useModal(modal?: any, args?: any): any {
   const removeCallback = useCallback(() => remove(mid), [mid]);
   const resolveCallback = useCallback(
     (args?: unknown) => {
-      modalCallbacks[mid]?.resolve(args);
-      delete modalCallbacks[mid];
+      resolve(mid, args);
     },
     [mid],
   );
   const rejectCallback = useCallback(
     (args?: unknown) => {
-      modalCallbacks[mid]?.reject(args);
-      delete modalCallbacks[mid];
+      reject(mid, args);
     },
     [mid],
   );
@@ -672,6 +680,8 @@ const NiceModal = {
   show,
   hide,
   remove,
+  resolve,
+  reject,
   useModal,
   reducer,
   antdModal,
